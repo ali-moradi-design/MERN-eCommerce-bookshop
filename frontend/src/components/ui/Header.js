@@ -8,8 +8,6 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useTheme } from "@material-ui/core/styles";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
@@ -19,18 +17,8 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Hidden from "@material-ui/core/Hidden";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import Grow from "@material-ui/core/Grow";
-import Paper from "@material-ui/core/Paper";
-import Popper from "@material-ui/core/Popper";
-import MenuList from "@material-ui/core/MenuList";
-import Accordion from "@material-ui/core/Accordion";
-import AccordionSummary from "@material-ui/core/AccordionSummary";
-import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Grid from "@material-ui/core/Grid";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Typography from "@material-ui/core/Typography";
-import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import PersonIcon from "@material-ui/icons/Person";
 function ElevationScroll(props) {
   const { children } = props;
@@ -116,12 +104,13 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   drawer: {
-    backgroundColor: theme.palette.common.blue,
+    backgroundColor: theme.palette.common.red,
   },
   drawerItem: {
     ...theme.typography.tab,
     color: "white",
-    opacity: 0.7,
+    padding: "0 2rem",
+    opacity: 0.5,
   },
   drawerItemEstimate: {
     backgroundColor: theme.palette.common.orange,
@@ -134,134 +123,26 @@ const useStyles = makeStyles((theme) => ({
   appbar: {
     zIndex: theme.zIndex.modal + 1,
   },
-  expansion: {
-    backgroundColor: theme.palette.common.blue,
-    borderBottom: "1px solid rgba(0, 0, 0, 0.12)",
-    "&.Mui-expanded": {
-      margin: 0,
-      borderBottom: 0,
-    },
-    "&::before": {
-      backgroundColor: "rgba(0, 0, 0, 0)",
-    },
-  },
-  expansionDetails: {
-    padding: 0,
-    backgroundColor: "#ebda44",
-  },
-  expansionSummary: {
-    padding: "0 24px 0 16px",
-    "&:hover": {
-      backgroundColor: "rgba(0, 0, 0, 0.08)",
-    },
-    backgroundColor: (props) =>
-      props.value === 1 ? "rgba(0, 0, 0, 0.14)" : "inherit",
-  },
 }));
 
 export default function Header(props) {
   const classes = useStyles(props);
   const theme = useTheme();
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
-  const matches = useMediaQuery(theme.breakpoints.down("md"));
 
   const [openDrawer, setOpenDrawer] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [openMenu, setOpenMenu] = useState(false);
-  const [open, setOpen] = useState(false);
-
-  const [previousURL, setPreviousURL] = useState("");
 
   const handleChange = (e, newValue) => {
     props.setValue(newValue);
   };
 
-  const handleClick = (e) => {
-    setAnchorEl(e.currentTarget);
-    setOpenMenu(true);
-  };
-
-  const handleMenuItemClick = (e, i) => {
-    setAnchorEl(null);
-    setOpenMenu(false);
-    props.setSelectedIndex(i);
-  };
-
-  const handleClose = (e) => {
-    setAnchorEl(null);
-    setOpenMenu(false);
-  };
-
-  function handleListKeyDown(event) {
-    if (event.key === "Tab") {
-      event.preventDefault();
-      setOpen(false);
-    }
-  }
-
-  const menuOptions = [
-    {
-      name: "Custom Software Development",
-      link: "/customsoftware",
-      activeIndex: 1,
-      selectedIndex: 0,
-    },
-    {
-      name: "iOS/Android App Development",
-      link: "/mobileapps",
-      activeIndex: 1,
-      selectedIndex: 1,
-    },
-    {
-      name: "Website Development",
-      link: "/websites",
-      activeIndex: 1,
-      selectedIndex: 2,
-    },
-  ];
-
-  const routes = [
-    { name: "Home", link: "/", activeIndex: 0 },
-    { name: "Cart", link: "/cart", activeIndex: 1 },
-  ];
-
-  function checkPath() {
-    [...menuOptions, ...routes].forEach((route) => {
-      switch (window.location.pathname) {
-        case `${route.link}`:
-          if (props.value !== route.activeIndex) {
-            props.setValue(route.activeIndex);
-            if (
-              route.selectedIndex &&
-              route.selectedIndex !== props.selectedIndex
-            ) {
-              props.setSelectedIndex(route.selectedIndex);
-            }
-          }
-          break;
-        case "/estimate":
-          if (props.value !== false) {
-            props.setValue(false);
-          }
-
-          break;
-        default:
-          break;
-      }
-    });
-  }
-
   useEffect(() => {
-    if (previousURL !== window.location.pathname) {
-      setPreviousURL(window.location.pathname);
+    if (window.location.pathname === "/" && props.value !== 0) {
+      props.setValue(0);
+    } else if (window.location.pathname === "/cart" && props.value !== 1) {
+      props.setValue(1);
     }
-
-    if (window.performance) {
-      if (performance.navigation.type === 1) {
-        checkPath();
-      }
-    }
-  }, [props.value, menuOptions, props.selectedIndex, routes, props]);
+  }, [props.value]);
 
   const tabs = (
     <React.Fragment>
@@ -271,19 +152,8 @@ export default function Header(props) {
         className={classes.tabContainer}
         indicatorColor="secondary"
       >
-        {routes.map((route, index) => (
-          <Tab
-            key={`${route}${index}`}
-            className={classes.tab}
-            component={Link}
-            to={route.link}
-            label={route.name}
-            aria-owns={route.ariaOwns}
-            aria-haspopup={route.ariaPopup}
-            onMouseOver={route.mouseOver}
-            onMouseLeave={() => setOpenMenu(false)}
-          />
-        ))}
+        <Tab label="HOME" component={Link} to="/" className={classes.tab} />
+        <Tab label="CART" component={Link} to="/cart" className={classes.tab} />
       </Tabs>
       <Button
         component={Link}
@@ -298,71 +168,6 @@ export default function Header(props) {
         <PersonIcon />
         Sign In
       </Button>
-      <Popper
-        open={openMenu}
-        anchorEl={anchorEl}
-        placement="bottom-start"
-        role={undefined}
-        transition
-        disablePortal
-      >
-        {({ TransitionProps, placement }) => (
-          <Grow
-            {...TransitionProps}
-            style={{
-              transformOrigin: "top left",
-            }}
-          >
-            <Paper classes={{ root: classes.menu }} elevation={3}>
-              <ClickAwayListener onClickAway={handleClose}>
-                <MenuList
-                  onMouseOver={() => setOpenMenu(true)}
-                  onMouseLeave={handleClose}
-                  disablePadding
-                  autoFocusItem={false}
-                  id="simple-menu"
-                  onKeyDown={handleListKeyDown}
-                >
-                  {menuOptions.map((option, i) => (
-                    <MenuItem
-                      key={`${option}${i}`}
-                      component={Link}
-                      to={option.link}
-                      classes={{ root: classes.menuItem }}
-                      onClick={(event) => {
-                        handleMenuItemClick(event, i);
-                        props.setValue(1);
-                        handleClose();
-                      }}
-                      selected={
-                        i === props.selectedIndex &&
-                        props.value === 1 &&
-                        window.location.pathname !== "/services"
-                      }
-                    >
-                      {option.name}
-                    </MenuItem>
-                  ))}
-                </MenuList>
-              </ClickAwayListener>
-            </Paper>
-          </Grow>
-        )}
-      </Popper>
-      {/* <Menu
-        id="simple-menu"
-        disableAutoFocusItem
-        anchorEl={anchorEl}
-        open={openMenu}
-        onClose={handleClose}
-        classes={{ paper: classes.menu }}
-        MenuListProps={{
-          onMouseLeave: handleClose
-        }}
-        elevation={0}
-        style={{ zIndex: 1302 }}
-        keepMounted
-      ></Menu> */}
     </React.Fragment>
   );
 
@@ -378,110 +183,55 @@ export default function Header(props) {
       >
         <div className={classes.toolbarMargin} />
         <List disablePadding>
-          {routes.map((route) =>
-            route.name === "Services" ? (
-              <Accordion
-                elevation={0}
-                key={`${route.name} ${Math.random()}`}
-                classes={{ root: classes.expansion }}
-              >
-                <AccordionSummary
-                  classes={{ root: classes.expansionSummary }}
-                  expandIcon={<ExpandMoreIcon color="secondary" />}
-                >
-                  <ListItemText
-                    className={classes.drawerItem}
-                    disableTypography
-                    style={{ opacity: props.value === 1 ? 1 : null }}
-                    onClick={() => {
-                      setOpenDrawer(false);
-                      props.setValue(route.activeIndex);
-                    }}
-                  >
-                    <Link to={route.link} color="inherit">
-                      {route.name}
-                    </Link>
-                  </ListItemText>
-                </AccordionSummary>
-                <AccordionDetails classes={{ root: classes.expansionDetails }}>
-                  <Grid container direction="column">
-                    {menuOptions.map((route) => (
-                      <Grid item>
-                        <ListItem
-                          divider
-                          key={`${route}${
-                            route.seleselectedIndex
-                          }${Math.random()} `}
-                          button
-                          component={Link}
-                          to={route.link}
-                          selected={
-                            props.selectedIndex === route.selectedIndex &&
-                            props.value === 1 &&
-                            window.location.pathname !== "/services"
-                          }
-                          classes={{ selected: classes.drawerItemSelected }}
-                          onClick={() => {
-                            setOpenDrawer(false);
-                            props.setSelectedIndex(route.selectedIndex);
-                          }}
-                        >
-                          <ListItemText
-                            className={classes.drawerItem}
-                            disableTypography
-                          >
-                            {route.name
-                              .split(" ")
-                              .filter((word) => word !== "Development")
-                              .join(" ")}
-                            <br />
-                            <span style={{ fontSize: "0.75rem" }}>
-                              Development
-                            </span>
-                          </ListItemText>
-                        </ListItem>
-                      </Grid>
-                    ))}
-                  </Grid>
-                </AccordionDetails>
-              </Accordion>
-            ) : (
-              <ListItem
-                divider
-                key={`${route}${route.activeIndex}`}
-                button
-                component={Link}
-                to={route.link}
-                selected={props.value === route.activeIndex}
-                classes={{ selected: classes.drawerItemSelected }}
-                onClick={() => {
-                  setOpenDrawer(false);
-                  props.setValue(route.activeIndex);
-                }}
-              >
-                <ListItemText className={classes.drawerItem} disableTypography>
-                  {route.name}
-                </ListItemText>
-              </ListItem>
-            )
-          )}
           <ListItem
+            classes={{ selected: classes.drawerItemSelected }}
+            selected={props.value === 0}
             onClick={() => {
               setOpenDrawer(false);
-              props.setValue(false);
+              props.setValue(0);
             }}
             divider
             button
             component={Link}
-            classes={{
-              root: classes.drawerItemEstimate,
-              selected: classes.drawerItemSelected,
-            }}
-            to="/estimate"
-            selected={props.value === 5}
+            to="/"
           >
             <ListItemText className={classes.drawerItem} disableTypography>
-              Free Estimate
+              HOME
+            </ListItemText>
+          </ListItem>
+          <ListItem
+            classes={{ selected: classes.drawerItemSelected }}
+            selected={props.value === 1}
+            onClick={() => {
+              setOpenDrawer(false);
+              props.setValue(1);
+            }}
+            divider
+            button
+            component={Link}
+            to="/cart"
+          >
+            <ListItemText className={classes.drawerItem} disableTypography>
+              CART
+            </ListItemText>
+          </ListItem>
+          <ListItem
+            selected={props.value === 2}
+            classes={{
+              root: classes.drawerItemEstimate,
+              selected: classes.drawerItemEstimate,
+            }}
+            onClick={() => {
+              setOpenDrawer(false);
+              props.setValue(2);
+            }}
+            divider
+            button
+            component={Link}
+            to="/login"
+          >
+            <ListItemText className={classes.drawerItem} disableTypography>
+              Sign In
             </ListItemText>
           </ListItem>
         </List>
@@ -510,7 +260,10 @@ export default function Header(props) {
               style={{ textDecoration: "none" }}
             >
               <Grid container alignItems="center">
-                <Grid item alignSelf="center" style={{ marginRight: "0.8rem" }}>
+                <Grid
+                  item
+                  style={{ marginRight: "0.8rem", marginTop: "0.3rem" }}
+                >
                   <MenuBookIcon fontSize="large" />
                 </Grid>
                 <Grid item>
