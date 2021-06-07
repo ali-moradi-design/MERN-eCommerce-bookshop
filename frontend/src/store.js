@@ -12,15 +12,15 @@ import {
   //   productTopRatedReducer,
 } from "./reducers/productReducers";
 import { cartReducer } from "./reducers/cartReducers";
-// import {
-//   userLoginReducer,
-//   userRegisterReducer,
-//   userDetailsReducer,
-//   userUpdateProfileReducer,
-//   userListReducer,
-//   userDeleteReducer,
-//   userUpdateReducer,
-// } from "./reducers/userReducers";
+import {
+  userLoginReducer,
+  userRegisterReducer,
+  userDetailsReducer,
+  userUpdateProfileReducer,
+  userListReducer,
+  userDeleteReducer,
+  userUpdateReducer,
+} from "./reducers/userReducers";
 // import {
 //   orderCreateReducer,
 //   orderDetailsReducer,
@@ -39,13 +39,13 @@ const reducer = combineReducers({
   //   productReviewCreate: productReviewCreateReducer,
   //   productTopRated: productTopRatedReducer,
   cart: cartReducer,
-  //   userLogin: userLoginReducer,
-  //   userRegister: userRegisterReducer,
-  //   userDetails: userDetailsReducer,
-  //   userUpdateProfile: userUpdateProfileReducer,
-  //   userList: userListReducer,
-  //   userDelete: userDeleteReducer,
-  //   userUpdate: userUpdateReducer,
+  userLogin: userLoginReducer,
+  userRegister: userRegisterReducer,
+  userDetails: userDetailsReducer,
+  userUpdateProfile: userUpdateProfileReducer,
+  userList: userListReducer,
+  userDelete: userDeleteReducer,
+  userUpdate: userUpdateReducer,
   //   orderCreate: orderCreateReducer,
   //   orderDetails: orderDetailsReducer,
   //   orderPay: orderPayReducer,
@@ -71,7 +71,7 @@ const initialState = {
     cartItems: cartItemsFromStorage,
     shippingAddress: shippingAddressFromStorage,
   },
-  //   userLogin: { userInfo: userInfoFromStorage },
+  userLogin: { userInfo: userInfoFromStorage },
 };
 
 const middleware = [thunk];

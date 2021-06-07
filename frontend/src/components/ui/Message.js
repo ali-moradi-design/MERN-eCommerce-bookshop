@@ -11,7 +11,7 @@ const Message = ({ severity, children }) => {
 };
 
 Message.defaultProps = {
-  variant: "error",
+  severity: "info",
 };
 
 export default Message;

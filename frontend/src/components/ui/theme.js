@@ -36,7 +36,14 @@ export default createMuiTheme({
       fontFamily: "Raleway",
       fontWeight: 700,
       fontSize: "2.5rem",
-      color: arcBlue,
+      color: "#000",
+      lineHeight: 1.5,
+    },
+    h2: {
+      fontSize: "1.6rem",
+      fontWeight: 700,
+      fontSize: "1.6rem",
+      color: "#000",
       lineHeight: 1.5,
     },
     h3: {
@@ -94,7 +101,7 @@ export default createMuiTheme({
   overrides: {
     MuiInputLabel: {
       root: {
-        color: arcBlue,
+        color: arcOrange,
         fontSize: "1rem",
       },
     },

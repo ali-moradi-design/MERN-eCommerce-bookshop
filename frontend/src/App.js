@@ -9,6 +9,7 @@ import Main from "./components/Main";
 import HomeScreen from "./screens/HomeScreen";
 import ProductScreen from "./screens/ProductScreen";
 import CartScreen from "./screens/CartScreen";
+import LoginScreen from "./screens/LoginScreen";
 
 const App = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -24,7 +25,7 @@ const App = () => {
           setSelectedIndex={setSelectedIndex}
         />
         <Switch>
-          <main>
+          <main style={{ minHeight: "83vh" }}>
             <Container maxWidth="lg">
               <Route
                 exact
@@ -41,6 +42,16 @@ const App = () => {
                 path="/product/:id"
                 render={(props) => (
                   <ProductScreen
+                    {...props}
+                    setValue={setValue}
+                    setSelectedIndex={setSelectedIndex}
+                  />
+                )}
+              />
+              <Route
+                path="/login"
+                render={(props) => (
+                  <LoginScreen
                     {...props}
                     setValue={setValue}
                     setSelectedIndex={setSelectedIndex}
