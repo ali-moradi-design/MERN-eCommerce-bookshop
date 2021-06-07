@@ -8,6 +8,7 @@ import theme from "./components/ui/theme";
 import Main from "./components/Main";
 import HomeScreen from "./screens/HomeScreen";
 import ProductScreen from "./screens/ProductScreen";
+import CartScreen from "./screens/CartScreen";
 
 const App = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -40,6 +41,16 @@ const App = () => {
                 path="/product/:id"
                 render={(props) => (
                   <ProductScreen
+                    {...props}
+                    setValue={setValue}
+                    setSelectedIndex={setSelectedIndex}
+                  />
+                )}
+              />
+              <Route
+                path="/cart/:id?"
+                render={(props) => (
+                  <CartScreen
                     {...props}
                     setValue={setValue}
                     setSelectedIndex={setSelectedIndex}

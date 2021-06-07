@@ -105,10 +105,10 @@ export default createMuiTheme({
       },
       underline: {
         "&:before": {
-          borderBottom: `2px solid ${arcBlue}`,
+          borderBottom: `2px solid ${arcOrange}`,
         },
         "&:hover:not($disabled):not($focused):not($error):before": {
-          borderBottom: `2px solid ${arcBlue}`,
+          borderBottom: `2px solid ${arcOrange}`,
         },
       },
     },
