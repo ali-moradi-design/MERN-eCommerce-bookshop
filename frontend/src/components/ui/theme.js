@@ -11,6 +11,7 @@ export default createMuiTheme({
       blue: arcBlue,
       red: arcRed,
       orange: arcOrange,
+      gray: arcGrey,
     },
     primary: {
       main: arcRed,
@@ -30,7 +31,7 @@ export default createMuiTheme({
       fontFamily: "Pacifico",
       fontSize: "1rem",
       textTransform: "none",
-      color: "white",
+      color: "#000",
     },
     h1: {
       fontFamily: "Raleway",
@@ -42,7 +43,6 @@ export default createMuiTheme({
     h2: {
       fontSize: "1.6rem",
       fontWeight: 700,
-      fontSize: "1.6rem",
       color: "#000",
       lineHeight: 1.5,
     },

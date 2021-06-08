@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import MenuBookIcon from "@material-ui/icons/MenuBook";
@@ -7,7 +9,6 @@ import { makeStyles } from "@material-ui/styles";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Button from "@material-ui/core/Button";
-import { Link } from "react-router-dom";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useTheme } from "@material-ui/core/styles";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
@@ -20,6 +21,9 @@ import Hidden from "@material-ui/core/Hidden";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import PersonIcon from "@material-ui/icons/Person";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import { logout } from "../../actions/userAction";
+
 function ElevationScroll(props) {
   const { children } = props;
 
@@ -71,13 +75,9 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     ...theme.typography.estimate,
-    borderRadius: "50px",
     marginLeft: "50px",
     marginRight: "25px",
-    height: "45px",
-    "&:hover": {
-      backgroundColor: theme.palette.secondary.light,
-    },
+    color: "#fff",
   },
   menu: {
     backgroundColor: "#ebda44",
@@ -113,7 +113,10 @@ const useStyles = makeStyles((theme) => ({
     opacity: 0.5,
   },
   drawerItemEstimate: {
-    backgroundColor: theme.palette.common.orange,
+    backgroundColor: theme.palette.common.gray,
+    "&:hover": {
+      backgroundColor: "#000",
+    },
   },
   drawerItemSelected: {
     "& .MuiListItemText-root": {
@@ -123,6 +126,10 @@ const useStyles = makeStyles((theme) => ({
   appbar: {
     zIndex: theme.zIndex.modal + 1,
   },
+  logout: {
+    marginRight: "-2rem",
+    marginLeft: "2rem",
+  },
 }));
 
 export default function Header(props) {
@@ -130,8 +137,16 @@ export default function Header(props) {
   const theme = useTheme();
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
 
+  const dispatch = useDispatch();
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   const [openDrawer, setOpenDrawer] = useState(false);
 
+  const logoutHandler = () => {
+    dispatch(logout());
+  };
   const handleChange = (e, newValue) => {
     props.setValue(newValue);
   };
@@ -155,19 +170,38 @@ export default function Header(props) {
         <Tab label="HOME" component={Link} to="/" className={classes.tab} />
         <Tab label="CART" component={Link} to="/cart" className={classes.tab} />
       </Tabs>
-      <Button
-        component={Link}
-        to="/login"
-        variant="contained"
-        color="secondary"
-        className={classes.button}
-        onClick={() => {
-          props.setValue(false);
-        }}
-      >
-        <PersonIcon />
-        Sign In
-      </Button>
+      {userInfo ? (
+        <>
+          <Button
+            variant="contained"
+            onClick={logoutHandler}
+            className={classes.logout}
+          >
+            <ExitToAppIcon />
+            LOGOUT
+          </Button>
+          <Button
+            component={Link}
+            to="/profile"
+            variant="contained"
+            className={classes.button}
+          >
+            <PersonIcon />
+            {userInfo.name}
+          </Button>
+        </>
+      ) : (
+        <Button
+          component={Link}
+          to="/login"
+          variant="contained"
+          color="secondary"
+          className={classes.button}
+        >
+          <PersonIcon />
+          Sign In
+        </Button>
+      )}
     </React.Fragment>
   );
 
@@ -215,25 +249,65 @@ export default function Header(props) {
               CART
             </ListItemText>
           </ListItem>
-          <ListItem
-            selected={props.value === 2}
-            classes={{
-              root: classes.drawerItemEstimate,
-              selected: classes.drawerItemEstimate,
-            }}
-            onClick={() => {
-              setOpenDrawer(false);
-              props.setValue(2);
-            }}
-            divider
-            button
-            component={Link}
-            to="/login"
-          >
-            <ListItemText className={classes.drawerItem} disableTypography>
-              Sign In
-            </ListItemText>
-          </ListItem>
+          {userInfo ? (
+            <>
+              <ListItem
+                selected={props.value === 0}
+                classes={{
+                  root: classes.drawerItemEstimate,
+                  selected: classes.drawerItemEstimate,
+                }}
+                onClick={() => {
+                  setOpenDrawer(false);
+                  props.setValue(0);
+                }}
+                divider
+                button
+                component={Link}
+                to="/profile"
+              >
+                <ListItemText className={classes.drawerItem} disableTypography>
+                  {userInfo.name}
+                </ListItemText>
+              </ListItem>
+              <ListItem
+                classes={{
+                  root: classes.drawerItemEstimate,
+                  selected: classes.drawerItemEstimate,
+                }}
+                onClick={() => {
+                  setOpenDrawer(false);
+                  logoutHandler();
+                }}
+                divider
+                button
+              >
+                <ListItemText className={classes.drawerItem} disableTypography>
+                  logout
+                </ListItemText>
+              </ListItem>
+            </>
+          ) : (
+            <ListItem
+              selected={props.value === 0}
+              classes={{
+                root: classes.drawerItemEstimate,
+                selected: classes.drawerItemEstimate,
+              }}
+              onClick={() => {
+                setOpenDrawer(false);
+                props.setValue(0);
+              }}
+              divider
+              button
+              component={Link}
+              to="/login"
+            >
+              <ListItemText className={classes.drawerItem} disableTypography>
+                Sign In
+              </ListItemText>
+            </ListItem>
+          )}
         </List>
       </SwipeableDrawer>
       <IconButton

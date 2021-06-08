@@ -11,7 +11,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Loader from "../components/ui/Loader";
 import Snack from "../components/ui/Snack";
 import FormContainer from "../components/ui/FormContainer";
-import { login } from "../actions/userAction";
+import { register } from "../actions/userAction";
 
 const useStyles = makeStyles((theme) => ({
   smallImage: {
@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    padding: theme.spacing(1.5, 1.5),
     backgroundColor: "#000",
     color: "#fff",
   },
@@ -35,23 +36,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LoginScreen = ({ location, history }) => {
+const RegisterScreen = ({ location, history }) => {
   const classes = useStyles();
   const theme = useTheme();
   const matchesMD = useMediaQuery(theme.breakpoints.down("md"));
   const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [emailHelper, setEmailHelper] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordHelper, setPasswordHelper] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [message, setMessage] = useState(null);
 
   const redirect = location.search ? location.search.split("=")[1] : "/";
 
   const dispatch = useDispatch();
 
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo, loading, error } = userLogin;
+  const userRegister = useSelector((state) => state.userRegister);
+  const { userInfo, loading, error } = userRegister;
 
   useEffect(() => {
     if (userInfo) {
@@ -59,48 +61,29 @@ const LoginScreen = ({ location, history }) => {
     }
   }, [history, userInfo, redirect]);
 
-  const onChange = (event) => {
-    let valid;
-
-    switch (event.target.id) {
-      case "email":
-        setEmail(event.target.value);
-        valid = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
-          event.target.value
-        );
-
-        if (!valid) {
-          setEmailHelper("Invalid email");
-        } else {
-          setEmailHelper("");
-        }
-        break;
-      case "password":
-        setPassword(event.target.value);
-
-        if (password.length < 5) {
-          setPasswordHelper("password should be longer");
-        } else {
-          setPasswordHelper("");
-        }
-        break;
-      default:
-        break;
-    }
-  };
-
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(login(email, password));
-    setEmail("");
-    setPassword("");
+    if (password !== confirmPassword) {
+      setMessage("Password do not match");
+      setName("");
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
+    } else {
+      dispatch(register(name, email, password));
+      setName("");
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
+    }
   };
 
   return (
     <FormContainer>
       <Typography variant="h1" align="center">
-        Sign In
+        Sign Up
       </Typography>
+      {message && <Snack error={message} />}
       {error && <Snack error={error} />}
       {loading && <Loader />}
       <form className={classes.form} noValidate>
@@ -109,15 +92,26 @@ const LoginScreen = ({ location, history }) => {
           margin="normal"
           required
           fullWidth
+          id="name"
+          label="Name"
+          name="name"
+          autoComplete="name"
+          autoFocus
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
           id="email"
           label="Email Address"
           name="email"
-          error={emailHelper.length !== 0}
-          helperText={emailHelper}
           autoComplete="email"
           autoFocus
           value={email}
-          onChange={onChange}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <TextField
           variant="outlined"
@@ -125,14 +119,25 @@ const LoginScreen = ({ location, history }) => {
           required
           fullWidth
           name="password"
-          error={passwordHelper.length !== 0}
-          helperText={passwordHelper}
           label="Password"
           type="password"
           id="password"
           autoComplete="current-password"
           value={password}
-          onChange={onChange}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          name="confirmPassword"
+          label="Confirm Password"
+          type="confirmPassword"
+          id="confirmPassword"
+          autoComplete="current-password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
         />
         <Button
           type="submit"
@@ -140,29 +145,24 @@ const LoginScreen = ({ location, history }) => {
           fullWidth
           variant="contained"
           className={classes.submit}
-          disabled={email.length === 0 || password.length === 0}
+          disabled={
+            name.length === 0 ||
+            email.length === 0 ||
+            password.length === 0 ||
+            confirmPassword.length === 0
+          }
         >
-          Sign In
+          Register
         </Button>
-        <Grid container>
-          <Grid item xs>
-            <Typography
-              className={classes.link}
-              component={Link}
-              to="/"
-              variant="body2"
-            >
-              Forgot password?
-            </Typography>
-          </Grid>
+        <Grid container justify="center">
           <Grid item>
             <Typography
               className={classes.link}
               component={Link}
-              to={redirect ? `/register?redirect=${redirect}` : "/register"}
+              to={redirect ? `/login?redirect=${redirect}` : "/login"}
               variant="body2"
             >
-              "Don't have an account? Sign Up"
+              "have an account? Login"
             </Typography>
           </Grid>
         </Grid>
@@ -171,4 +171,4 @@ const LoginScreen = ({ location, history }) => {
   );
 };
 
-export default LoginScreen;
+export default RegisterScreen;

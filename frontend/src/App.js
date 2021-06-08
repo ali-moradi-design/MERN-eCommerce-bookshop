@@ -9,6 +9,8 @@ import HomeScreen from "./screens/HomeScreen";
 import ProductScreen from "./screens/ProductScreen";
 import CartScreen from "./screens/CartScreen";
 import LoginScreen from "./screens/LoginScreen";
+import RegisterScreen from "./screens/RegisterScreen";
+import ProfileScreen from "./screens/ProfileScreen";
 
 const App = () => {
   const [value, setValue] = useState(0);
@@ -38,6 +40,18 @@ const App = () => {
                 path="/login"
                 render={(props) => (
                   <LoginScreen {...props} setValue={setValue} />
+                )}
+              />
+              <Route
+                path="/register"
+                render={(props) => (
+                  <RegisterScreen {...props} setValue={setValue} />
+                )}
+              />
+              <Route
+                path="/profile"
+                render={(props) => (
+                  <ProfileScreen {...props} setValue={setValue} />
                 )}
               />
               <Route

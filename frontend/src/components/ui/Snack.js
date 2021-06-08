@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Snackbar from "@material-ui/core/Snackbar";
 
 const Snack = ({ error }) => {
-  const [alert, setAlert] = React.useState({
+  const [alert, setAlert] = useState({
     open: true,
     color: "#FFBA60",
   });
