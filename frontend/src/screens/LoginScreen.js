@@ -42,9 +42,7 @@ const LoginScreen = ({ location, history }) => {
   const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [email, setEmail] = useState("");
-  const [emailHelper, setEmailHelper] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordHelper, setPasswordHelper] = useState("");
 
   const redirect = location.search ? location.search.split("=")[1] : "/";
 
@@ -65,24 +63,11 @@ const LoginScreen = ({ location, history }) => {
     switch (event.target.id) {
       case "email":
         setEmail(event.target.value);
-        valid = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
-          event.target.value
-        );
 
-        if (!valid) {
-          setEmailHelper("Invalid email");
-        } else {
-          setEmailHelper("");
-        }
         break;
       case "password":
         setPassword(event.target.value);
 
-        if (password.length < 5) {
-          setPasswordHelper("password should be longer");
-        } else {
-          setPasswordHelper("");
-        }
         break;
       default:
         break;
@@ -112,8 +97,6 @@ const LoginScreen = ({ location, history }) => {
           id="email"
           label="Email Address"
           name="email"
-          error={emailHelper.length !== 0}
-          helperText={emailHelper}
           autoComplete="email"
           autoFocus
           value={email}
@@ -125,8 +108,6 @@ const LoginScreen = ({ location, history }) => {
           required
           fullWidth
           name="password"
-          error={passwordHelper.length !== 0}
-          helperText={passwordHelper}
           label="Password"
           type="password"
           id="password"
