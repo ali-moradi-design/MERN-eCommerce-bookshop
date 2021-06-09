@@ -14,6 +14,7 @@ import ProfileScreen from './screens/ProfileScreen';
 import ShippingScreen from './screens/ShippingScreen';
 import PaymentScreen from './screens/PaymentScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
+import OrderScreen from './screens/OrderScreen';
 
 const App = () => {
   const [value, setValue] = useState(0);
@@ -73,6 +74,12 @@ const App = () => {
                 path='/placeorder'
                 render={(props) => (
                   <PlaceOrderScreen {...props} setValue={setValue} />
+                )}
+              />
+              <Route
+                path='/order/:id'
+                render={(props) => (
+                  <OrderScreen {...props} setValue={setValue} />
                 )}
               />
               <Route

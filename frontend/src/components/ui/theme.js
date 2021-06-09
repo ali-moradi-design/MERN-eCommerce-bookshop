@@ -1,9 +1,9 @@
-import { createMuiTheme } from "@material-ui/core/styles";
-const arcRed = "#8f1946";
-const arcBlue = "#0B72B9";
-const arcOrange = "#FFBA60";
-const arcGrey = "#868686";
-const white = "#fff";
+import { createMuiTheme } from '@material-ui/core/styles';
+const arcRed = '#8f1946';
+const arcBlue = '#0B72B9';
+const arcOrange = '#FFBA60';
+const arcGrey = '#868686';
+const white = '#fff';
 
 export default createMuiTheme({
   palette: {
@@ -22,87 +22,87 @@ export default createMuiTheme({
   },
   typography: {
     tab: {
-      textTransform: "none",
+      textTransform: 'none',
       fontWeight: 700,
-      color: "white",
-      fontSize: "1rem",
+      color: 'white',
+      fontSize: '1rem',
     },
     estimate: {
-      fontFamily: "Pacifico",
-      fontSize: "1rem",
-      textTransform: "none",
-      color: "#000",
+      fontFamily: 'Pacifico',
+      fontSize: '1rem',
+      textTransform: 'none',
+      color: arcRed,
     },
     h1: {
-      fontFamily: "Raleway",
+      fontFamily: 'Raleway',
       fontWeight: 700,
-      fontSize: "2.5rem",
-      color: "#000",
+      fontSize: '2.5rem',
+      color: '#000',
       lineHeight: 1.5,
     },
     h2: {
-      fontSize: "1.6rem",
+      fontSize: '1.6rem',
       fontWeight: 700,
-      color: "#000",
+      color: '#000',
       lineHeight: 1.5,
     },
     h3: {
-      fontSize: "2.5rem",
+      fontSize: '2.5rem',
       color: white,
     },
     h4: {
-      fontFamily: "Raleway",
-      fontSize: "1.75rem",
-      color: "#000",
+      fontFamily: 'Raleway',
+      fontSize: '1.75rem',
+      color: '#000',
       fontWeight: 700,
     },
     h5: {
       fontWeight: 500,
-      fontSize: "1rem",
-      color: "#000",
+      fontSize: '1rem',
+      color: '#000',
       lineHeight: 1,
     },
     h6: {
       fontWeight: 500,
-      fontSize: "1.6rem",
+      fontSize: '1.6rem',
       color: white,
       lineHeight: 1,
     },
     subtitle1: {
-      fontSize: "1.25rem",
+      fontSize: '1.25rem',
       fontWeight: 300,
       color: white,
     },
     subtitle2: {
-      color: "white",
+      color: 'white',
       fontWeight: 300,
-      fontSize: "1.25rem",
+      fontSize: '1.25rem',
     },
     body1: {
-      fontSize: "1.25rem",
+      fontSize: '1.25rem',
       color: arcGrey,
       fontWeight: 300,
     },
     caption: {
-      fontSize: "1rem",
+      fontSize: '1rem',
       fontWeight: 300,
       color: arcGrey,
     },
     learnButton: {
       borderColor: arcBlue,
       borderWidth: 2,
-      textTransform: "none",
+      textTransform: 'none',
       color: arcBlue,
       borderRadius: 50,
-      fontFamily: "Roboto",
-      fontWeight: "bold",
+      fontFamily: 'Roboto',
+      fontWeight: 'bold',
     },
   },
   overrides: {
     MuiInputLabel: {
       root: {
         color: arcOrange,
-        fontSize: "1rem",
+        fontSize: '1rem',
       },
     },
     MuiInput: {
@@ -111,10 +111,10 @@ export default createMuiTheme({
         fontWeight: 300,
       },
       underline: {
-        "&:before": {
+        '&:before': {
           borderBottom: `2px solid ${arcOrange}`,
         },
-        "&:hover:not($disabled):not($focused):not($error):before": {
+        '&:hover:not($disabled):not($focused):not($error):before': {
           borderBottom: `2px solid ${arcOrange}`,
         },
       },

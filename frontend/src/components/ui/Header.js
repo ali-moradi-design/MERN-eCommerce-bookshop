@@ -1,28 +1,28 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import MenuBookIcon from "@material-ui/icons/MenuBook";
-import useScrollTrigger from "@material-ui/core/useScrollTrigger";
-import { makeStyles } from "@material-ui/styles";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Button from "@material-ui/core/Button";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { useTheme } from "@material-ui/core/styles";
-import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import Hidden from "@material-ui/core/Hidden";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import PersonIcon from "@material-ui/icons/Person";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import { logout } from "../../actions/userAction";
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import MenuBookIcon from '@material-ui/icons/MenuBook';
+import useScrollTrigger from '@material-ui/core/useScrollTrigger';
+import { makeStyles } from '@material-ui/styles';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Button from '@material-ui/core/Button';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Hidden from '@material-ui/core/Hidden';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import PersonIcon from '@material-ui/icons/Person';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { logout } from '../../actions/userAction';
 
 function ElevationScroll(props) {
   const { children } = props;
@@ -40,67 +40,66 @@ function ElevationScroll(props) {
 const useStyles = makeStyles((theme) => ({
   toolbarMargin: {
     ...theme.mixins.toolbar,
-    marginBottom: "1em",
-    [theme.breakpoints.down("md")]: {
-      marginBottom: "0.8em",
+    marginBottom: '1em',
+    [theme.breakpoints.down('md')]: {
+      marginBottom: '0.8em',
     },
-    [theme.breakpoints.down("xs")]: {
-      marginBottom: "0.6em",
+    [theme.breakpoints.down('xs')]: {
+      marginBottom: '0.6em',
     },
   },
   logo: {
-    height: "8em",
-    textTransform: "none",
-    [theme.breakpoints.down("md")]: {
-      height: "7em",
+    height: '8em',
+    textTransform: 'none',
+    [theme.breakpoints.down('md')]: {
+      height: '7em',
     },
-    [theme.breakpoints.down("xs")]: {
-      height: "5.5em",
+    [theme.breakpoints.down('xs')]: {
+      height: '5.5em',
     },
   },
   logoContainer: {
-    color: "#fff",
+    color: '#fff',
     padding: 0,
-    "&:hover": {
-      backgroundColor: "transparent",
+    '&:hover': {
+      backgroundColor: 'transparent',
     },
   },
   tabContainer: {
-    marginLeft: "auto",
+    marginLeft: 'auto',
   },
   tab: {
     ...theme.typography.tab,
     minWidth: 10,
-    marginLeft: "25px",
+    marginLeft: '25px',
   },
   button: {
     ...theme.typography.estimate,
-    marginLeft: "50px",
-    marginRight: "25px",
-    color: "#fff",
+    marginLeft: '50px',
+    marginRight: '25px',
   },
   menu: {
-    backgroundColor: "#ebda44",
-    color: "#f4f4f4",
-    borderRadius: "5px",
+    backgroundColor: '#ebda44',
+    color: '#f4f4f4',
+    borderRadius: '5px',
     zIndex: 1302,
   },
   menuItem: {
     ...theme.typography.tab,
-    color: "#000",
-    "&:hover": {
+    color: '#000',
+    '&:hover': {
       opacity: 1,
     },
   },
   drawerIcon: {
-    color: "#fff",
-    height: "50px",
-    width: "50px",
+    color: '#fff',
+    height: '50px',
+    width: '50px',
   },
   drawerIconContainer: {
-    marginLeft: "auto",
-    "&:hover": {
-      backgroundColor: "transparent",
+    marginLeft: 'auto',
+    '&:hover': {
+      backgroundColor: 'transparent',
     },
   },
   drawer: {
@@ -108,18 +107,18 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerItem: {
     ...theme.typography.tab,
-    color: "white",
-    padding: "0 2rem",
+    color: 'white',
+    padding: '0 2rem',
     opacity: 0.5,
   },
   drawerItemEstimate: {
     backgroundColor: theme.palette.common.gray,
-    "&:hover": {
-      backgroundColor: "#000",
+    '&:hover': {
+      backgroundColor: '#000',
     },
   },
   drawerItemSelected: {
-    "& .MuiListItemText-root": {
+    '& .MuiListItemText-root': {
       opacity: 1,
     },
   },
@@ -127,8 +126,8 @@ const useStyles = makeStyles((theme) => ({
     zIndex: theme.zIndex.modal + 1,
   },
   logout: {
-    marginRight: "-2rem",
-    marginLeft: "2rem",
+    marginRight: '-2rem',
+    marginLeft: '2rem',
   },
 }));
 
@@ -152,9 +151,9 @@ export default function Header(props) {
   };
 
   useEffect(() => {
-    if (window.location.pathname === "/" && props.value !== 0) {
+    if (window.location.pathname === '/' && props.value !== 0) {
       props.setValue(0);
-    } else if (window.location.pathname === "/cart" && props.value !== 1) {
+    } else if (window.location.pathname === '/cart' && props.value !== 1) {
       props.setValue(1);
     }
   }, [props.value]);
@@ -165,15 +164,15 @@ export default function Header(props) {
         value={props.value}
         onChange={handleChange}
         className={classes.tabContainer}
-        indicatorColor="secondary"
+        indicatorColor='secondary'
       >
-        <Tab label="HOME" component={Link} to="/" className={classes.tab} />
-        <Tab label="CART" component={Link} to="/cart" className={classes.tab} />
+        <Tab label='HOME' component={Link} to='/' className={classes.tab} />
+        <Tab label='CART' component={Link} to='/cart' className={classes.tab} />
       </Tabs>
       {userInfo ? (
         <>
           <Button
-            variant="contained"
+            variant='contained'
             onClick={logoutHandler}
             className={classes.logout}
           >
@@ -182,8 +181,8 @@ export default function Header(props) {
           </Button>
           <Button
             component={Link}
-            to="/profile"
-            variant="contained"
+            to='/profile'
+            variant='contained'
             className={classes.button}
           >
             <PersonIcon />
@@ -193,9 +192,8 @@ export default function Header(props) {
       ) : (
         <Button
           component={Link}
-          to="/login"
-          variant="contained"
-          color="secondary"
+          to='/login'
+          variant='contained'
           className={classes.button}
         >
           <PersonIcon />
@@ -227,7 +225,7 @@ export default function Header(props) {
             divider
             button
             component={Link}
-            to="/"
+            to='/'
           >
             <ListItemText className={classes.drawerItem} disableTypography>
               HOME
@@ -243,7 +241,7 @@ export default function Header(props) {
             divider
             button
             component={Link}
-            to="/cart"
+            to='/cart'
           >
             <ListItemText className={classes.drawerItem} disableTypography>
               CART
@@ -264,7 +262,7 @@ export default function Header(props) {
                 divider
                 button
                 component={Link}
-                to="/profile"
+                to='/profile'
               >
                 <ListItemText className={classes.drawerItem} disableTypography>
                   {userInfo.name}
@@ -301,7 +299,7 @@ export default function Header(props) {
               divider
               button
               component={Link}
-              to="/login"
+              to='/login'
             >
               <ListItemText className={classes.drawerItem} disableTypography>
                 Sign In
@@ -323,25 +321,25 @@ export default function Header(props) {
   return (
     <React.Fragment>
       <ElevationScroll>
-        <AppBar position="fixed" className={classes.appbar}>
+        <AppBar position='fixed' className={classes.appbar}>
           <Toolbar>
             <Button
               component={Link}
-              to="/"
+              to='/'
               disableRipple
               onClick={() => props.setValue(0)}
               className={classes.logoContainer}
-              style={{ textDecoration: "none" }}
+              style={{ textDecoration: 'none' }}
             >
-              <Grid container alignItems="center">
+              <Grid container alignItems='center'>
                 <Grid
                   item
-                  style={{ marginRight: "0.8rem", marginTop: "0.3rem" }}
+                  style={{ marginRight: '0.8rem', marginTop: '0.3rem' }}
                 >
-                  <MenuBookIcon fontSize="large" />
+                  <MenuBookIcon fontSize='large' />
                 </Grid>
                 <Grid item>
-                  <Typography variant="h6"> Book shop</Typography>
+                  <Typography variant='h6'> Book shop</Typography>
                 </Grid>
               </Grid>
             </Button>
