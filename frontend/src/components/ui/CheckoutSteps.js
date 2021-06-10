@@ -32,7 +32,7 @@ const CheckoutSteps = ({ history }) => {
     } else if (window.location.pathname === '/placeorder') {
       setCompleted(new Set([0, 1, 2]));
     }
-  }, [window]);
+  }, []);
 
   const handleStep = (step) => () => {
     if (step === 1) {

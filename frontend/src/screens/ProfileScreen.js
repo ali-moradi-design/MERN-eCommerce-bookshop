@@ -30,6 +30,12 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 5,
     boxShadow: theme.shadows[1],
   },
+  submit: {
+    marginTop: '1rem',
+  },
+  closeIcon: {
+    color: '#8f1529',
+  },
 }));
 
 const ProfileScreen = ({ match, location, history }) => {
@@ -94,7 +100,7 @@ const ProfileScreen = ({ match, location, history }) => {
         {loading && <Loader />}
         <form className={classes.form} noValidate>
           <TextField
-            variant='outlined'
+            variant='standard'
             margin='normal'
             required
             fullWidth
@@ -107,7 +113,7 @@ const ProfileScreen = ({ match, location, history }) => {
             onChange={(e) => setName(e.target.value)}
           />
           <TextField
-            variant='outlined'
+            variant='standard'
             margin='normal'
             required
             fullWidth
@@ -115,12 +121,11 @@ const ProfileScreen = ({ match, location, history }) => {
             label='Email Address'
             name='email'
             autoComplete='email'
-            autoFocus
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <TextField
-            variant='outlined'
+            variant='standard'
             margin='normal'
             required
             fullWidth
@@ -133,7 +138,7 @@ const ProfileScreen = ({ match, location, history }) => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <TextField
-            variant='outlined'
+            variant='standard'
             margin='normal'
             required
             fullWidth
@@ -148,15 +153,11 @@ const ProfileScreen = ({ match, location, history }) => {
           <Button
             type='submit'
             onClick={submitHandler}
+            color='secondary'
             fullWidth
             variant='contained'
             className={classes.submit}
-            disabled={
-              name.length === 0 ||
-              email.length === 0 ||
-              password.length === 0 ||
-              confirmPassword.length === 0
-            }
+            disabled={name.length === 0 || email.length === 0}
           >
             Update
           </Button>
@@ -195,14 +196,14 @@ const ProfileScreen = ({ match, location, history }) => {
                       {order.isPaid ? (
                         order.paidAt.substring(0, 10)
                       ) : (
-                        <CloseIcon />
+                        <CloseIcon classes={{ root: classes.closeIcon }} />
                       )}
                     </TableCell>
                     <TableCell align='center'>
                       {order.isDeliverd ? (
                         order.deliveredAt.substring(0, 10)
                       ) : (
-                        <CloseIcon />
+                        <CloseIcon classes={{ root: classes.closeIcon }} />
                       )}
                     </TableCell>
                     <TableCell align='center'>

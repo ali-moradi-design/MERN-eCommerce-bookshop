@@ -20,6 +20,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Hidden from '@material-ui/core/Hidden';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 import PersonIcon from '@material-ui/icons/Person';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { logout } from '../../actions/userAction';
@@ -126,7 +127,6 @@ const useStyles = makeStyles((theme) => ({
     zIndex: theme.zIndex.modal + 1,
   },
   logout: {
-    marginRight: '-2rem',
     marginLeft: '2rem',
   },
 }));
@@ -149,14 +149,15 @@ export default function Header(props) {
   const handleChange = (e, newValue) => {
     props.setValue(newValue);
   };
+  const { value, setValue } = props;
 
   useEffect(() => {
-    if (window.location.pathname === '/' && props.value !== 0) {
-      props.setValue(0);
-    } else if (window.location.pathname === '/cart' && props.value !== 1) {
-      props.setValue(1);
+    if (window.location.pathname === '/' && value !== 0) {
+      setValue(0);
+    } else if (window.location.pathname === '/cart' && value !== 1) {
+      setValue(1);
     }
-  }, [props.value]);
+  }, [value, setValue]);
 
   const tabs = (
     <React.Fragment>
@@ -170,12 +171,11 @@ export default function Header(props) {
         <Tab label='CART' component={Link} to='/cart' className={classes.tab} />
       </Tabs>
       {userInfo ? (
-        <>
-          <Button
-            variant='contained'
-            onClick={logoutHandler}
-            className={classes.logout}
-          >
+        <ButtonGroup
+          aria-label='outlined secondary button group'
+          className={classes.logout}
+        >
+          <Button variant='contained' onClick={logoutHandler}>
             <ExitToAppIcon />
             LOGOUT
           </Button>
@@ -188,7 +188,7 @@ export default function Header(props) {
             <PersonIcon />
             {userInfo.name}
           </Button>
-        </>
+        </ButtonGroup>
       ) : (
         <Button
           component={Link}
@@ -199,6 +199,22 @@ export default function Header(props) {
           <PersonIcon />
           Sign In
         </Button>
+      )}
+      {userInfo && userInfo.isAdmin && (
+        <ButtonGroup
+          variant='contained'
+          aria-label='outlined secondary button group'
+        >
+          <Button component={Link} to='/admin/userlist'>
+            Users
+          </Button>
+          <Button component={Link} to='/admin/productlist'>
+            Products
+          </Button>
+          <Button component={Link} to='/admin/orderlist'>
+            Orders
+          </Button>
+        </ButtonGroup>
       )}
     </React.Fragment>
   );

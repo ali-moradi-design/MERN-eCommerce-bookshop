@@ -13,9 +13,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
 import Loader from '../components/ui/Loader';
-import Snack from '../components/ui/Snack';
 import Alert from '@material-ui/lab/Alert';
-import Message from '../components/ui/Message';
 import {
   getOrderDetails,
   payOrder,

@@ -5,11 +5,11 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import {
   productListReducer,
   productDetailsReducer,
-  //   productDeleteReducer,
-  //   productCreateReducer,
-  //   productUpdateReducer,
-  //   productReviewCreateReducer,
-  //   productTopRatedReducer,
+  productDeleteReducer,
+  productCreateReducer,
+  productUpdateReducer,
+  productReviewCreateReducer,
+  productTopRatedReducer,
 } from './reducers/productReducers';
 import { cartReducer } from './reducers/cartReducers';
 import {
@@ -33,11 +33,11 @@ import {
 const reducer = combineReducers({
   productList: productListReducer,
   productDetails: productDetailsReducer,
-  //   productDelete: productDeleteReducer,
-  //   productCreate: productCreateReducer,
-  //   productUpdate: productUpdateReducer,
-  //   productReviewCreate: productReviewCreateReducer,
-  //   productTopRated: productTopRatedReducer,
+  productDelete: productDeleteReducer,
+  productCreate: productCreateReducer,
+  productUpdate: productUpdateReducer,
+  productReviewCreate: productReviewCreateReducer,
+  productTopRated: productTopRatedReducer,
   cart: cartReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,

@@ -15,6 +15,9 @@ import ShippingScreen from './screens/ShippingScreen';
 import PaymentScreen from './screens/PaymentScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
+import UserListScreen from './screens/UserListScreen';
+import UserEditScreen from './screens/UserEditScreen';
+import ProductListScreen from './screens/ProductListScreen';
 
 const App = () => {
   const [value, setValue] = useState(0);
@@ -24,7 +27,7 @@ const App = () => {
       <BrowserRouter>
         <Header value={value} setValue={setValue} />
 
-        <main style={{ minHeight: '83vh' }}>
+        <main style={{ minHeight: '83.5vh' }}>
           <Container maxWidth='lg'>
             <Switch>
               <Route
@@ -86,6 +89,24 @@ const App = () => {
                 path='/cart/:id?'
                 render={(props) => (
                   <CartScreen {...props} setValue={setValue} />
+                )}
+              />
+              <Route
+                path='/admin/userlist'
+                render={(props) => (
+                  <UserListScreen {...props} setValue={setValue} />
+                )}
+              />
+              <Route
+                path='/admin/productlist'
+                render={(props) => (
+                  <ProductListScreen {...props} setValue={setValue} />
+                )}
+              />
+              <Route
+                path='/admin/user/:id/edit'
+                render={(props) => (
+                  <UserEditScreen {...props} setValue={setValue} />
                 )}
               />
             </Switch>
