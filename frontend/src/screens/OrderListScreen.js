@@ -21,7 +21,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Loader from '../components/ui/Loader';
 import Message from '../components/ui/Message';
-import { listUsers, deleteUser } from '../actions/userAction';
+import { listOrders } from '../actions/orderAction';
 
 const useStyles = makeStyles((theme) => ({
   checkColor: {
@@ -32,39 +32,29 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const UserListScreen = ({ history }) => {
+const OrderListScreen = ({ history }) => {
   const classes = useStyles();
-  const theme = useTheme();
 
   const dispatch = useDispatch();
 
-  const userList = useSelector((state) => state.userList);
-  const { loading, error, users } = userList;
+  const orderList = useSelector((state) => state.orderList);
+  const { loading, error, orders } = orderList;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
-  const userDelete = useSelector((state) => state.userDelete);
-  const { success: successDelete } = userDelete;
-
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
-      dispatch(listUsers());
+      dispatch(listOrders());
     } else {
       history.push('/login');
     }
-  }, [dispatch, history, userInfo, successDelete]);
-
-  const deleteHandler = (id) => {
-    if (window.confirm('Are you sure')) {
-      dispatch(deleteUser(id));
-    }
-  };
+  }, [dispatch, history, userInfo]);
 
   return (
     <>
       <Typography variant='h2' style={{ marginLeft: '1rem' }}>
-        Users
+        Orders
       </Typography>
       {loading ? (
         <Loader />
@@ -76,51 +66,48 @@ const UserListScreen = ({ history }) => {
             <TableHead>
               <TableRow>
                 <TableCell align='center'>ID</TableCell>
-                <TableCell align='center'>NAME</TableCell>
-                <TableCell align='center'>EMAIL</TableCell>
-                <TableCell align='center'>ADMIN</TableCell>
+                <TableCell align='center'>USER</TableCell>
+                <TableCell align='center'>DATE</TableCell>
+                <TableCell align='center'>TOTAL</TableCell>
+                <TableCell align='center'>PAID</TableCell>
+                <TableCell align='center'>DELIVERED</TableCell>
                 <TableCell align='center'></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {users.map((user) => (
-                <TableRow key={user._id}>
-                  <TableCell align='center'>{user._id}</TableCell>
-                  <TableCell align='center'>{user.name}</TableCell>
+              {orders.map((order) => (
+                <TableRow key={order._id}>
+                  <TableCell align='center'>{order._id}</TableCell>
                   <TableCell align='center'>
-                    <Button
-                      style={{ textTransform: 'none' }}
-                      component={Link}
-                      to={`mailto:${user.email}`}
-                    >
-                      {user.email}
-                    </Button>
+                    {order.user && order.user.name}
                   </TableCell>
                   <TableCell align='center'>
-                    {user.isAdmin ? (
-                      <CheckIcon classes={{ root: classes.checkColor }} />
+                    {order.createdAt.substring(0, 10)}
+                  </TableCell>
+                  <TableCell align='center'>${order.totalPrice}</TableCell>
+                  <TableCell align='center'>
+                    {order.isPaid ? (
+                      order.paidAt.substring(0, 10)
+                    ) : (
+                      <CloseIcon classes={{ root: classes.closeColor }} />
+                    )}
+                  </TableCell>
+                  <TableCell align='center'>
+                    {order.isDelivered ? (
+                      order.deliveredAt.substring(0, 10)
                     ) : (
                       <CloseIcon classes={{ root: classes.closeColor }} />
                     )}
                   </TableCell>
 
                   <TableCell align='center'>
-                    <ButtonGroup aria-label='small outlined button group'>
-                      <Button
-                        variant='contained'
-                        component={Link}
-                        to={`/admin/user/${user._id}/edit`}
-                      >
-                        <EditIcon />
-                      </Button>
-                      <Button
-                        variant='contained'
-                        color='primary'
-                        onClick={() => deleteHandler(user._id)}
-                      >
-                        <DeleteIcon />
-                      </Button>
-                    </ButtonGroup>
+                    <Button
+                      variant='contained'
+                      component={Link}
+                      to={`/order/${order._id}`}
+                    >
+                      Details
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}
@@ -132,4 +119,4 @@ const UserListScreen = ({ history }) => {
   );
 };
 
-export default UserListScreen;
+export default OrderListScreen;

@@ -1,26 +1,26 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { makeStyles } from "@material-ui/styles";
-import { useTheme } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import Card from "@material-ui/core/Card";
-import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import Divider from "@material-ui/core/Divider";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import DeleteIcon from "@material-ui/icons/Delete";
-import Message from "../components/ui/Message";
-import { addToCart, removeFromCart } from "../actions/cartAction";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { makeStyles } from '@material-ui/styles';
+import { useTheme } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import Card from '@material-ui/core/Card';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import Divider from '@material-ui/core/Divider';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Message from '../components/ui/Message';
+import { addToCart, removeFromCart } from '../actions/cartAction';
 
 const useStyles = makeStyles((theme) => ({
   smallImage: {
-    width: "100%",
-    height: "100%",
+    width: '100%',
+    height: '100%',
     borderRadius: 5,
     boxShadow: theme.shadows[1],
   },
@@ -29,8 +29,8 @@ const useStyles = makeStyles((theme) => ({
 const CartScreen = ({ match, location, history }) => {
   const classes = useStyles();
   const theme = useTheme();
-  const matchesMD = useMediaQuery(theme.breakpoints.down("md"));
-  const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
+  const matchesMD = useMediaQuery(theme.breakpoints.down('md'));
+  const matchesSM = useMediaQuery(theme.breakpoints.down('sm'));
 
   const dispatch = useDispatch();
 
@@ -38,7 +38,7 @@ const CartScreen = ({ match, location, history }) => {
   const { cartItems } = cart;
 
   const productID = match.params.id;
-  const qty = location.search ? Number(location.search.split("=")[1]) : 1;
+  const qty = location.search ? Number(location.search.split('=')[1]) : 1;
 
   useEffect(() => {
     if (productID) {
@@ -50,26 +50,26 @@ const CartScreen = ({ match, location, history }) => {
     dispatch(removeFromCart(id));
   };
   const checkoutHandler = () => {
-    history.push("/login?redirect=shipping");
+    history.push('/login?redirect=shipping');
   };
 
   return (
     <Grid container>
       <Grid item sm={8}>
-        <Typography variant="h1">Shopping Cart</Typography>
+        <Typography variant='h1'>Shopping Cart</Typography>
         {cartItems.length === 0 ? (
           <Message>
-            Your Cart is empty{" "}
-            <Button color="inherit" size="small">
+            Your Cart is empty{' '}
+            <Button color='inherit' size='small'>
               Go Back
-            </Button>{" "}
+            </Button>{' '}
           </Message>
         ) : (
           <List>
             {cartItems.map((item) => (
               <div key={item.product}>
                 <ListItem>
-                  <Grid container justify="space-between" alignItems="center">
+                  <Grid container justify='space-between' alignItems='center'>
                     <Grid item sm={2}>
                       <img
                         className={classes.smallImage}
@@ -87,12 +87,12 @@ const CartScreen = ({ match, location, history }) => {
                     </Grid>
                     <Grid item sm={2}>
                       <Select
-                        labelId="qty"
-                        id="qty"
-                        style={{ width: "3em" }}
+                        labelId='qty'
+                        id='qty'
+                        style={{ width: '3em' }}
                         displayEmpty
                         renderValue={
-                          item.qty > 0 ? undefined : () => "Quantity"
+                          item.qty > 0 ? undefined : () => 'Quantity'
                         }
                         value={item.qty}
                         onChange={(event) =>
@@ -111,7 +111,7 @@ const CartScreen = ({ match, location, history }) => {
                     <Grid item sm={2}>
                       <Button
                         onClick={() => removeFromCartHandler(item.product)}
-                        style={{ padding: "1rem", borderRadius: 5 }}
+                        style={{ padding: '1rem', borderRadius: 5 }}
                       >
                         <DeleteIcon />
                       </Button>
@@ -124,29 +124,29 @@ const CartScreen = ({ match, location, history }) => {
           </List>
         )}
       </Grid>
-      <Grid item sm={4} style={{ marginTop: "3rem", padding: "1rem" }}>
+      <Grid item sm={4} style={{ marginTop: '3rem', padding: '1rem' }}>
         <Card>
           <List>
             <ListItem>
-              <Typography variant="h2">
+              <Typography variant='h2'>
                 SUBTOTAL ({cartItems.reduce((acc, item) => acc + item.qty, 0)})
                 ITEMS
               </Typography>
             </ListItem>
             <ListItem>
-              <Typography variant="h5">
+              <Typography variant='h5'>
                 $
                 {cartItems
                   .reduce((acc, item) => acc + item.qty * item.price, 0)
                   .toFixed(2)}
               </Typography>
             </ListItem>
-            <ListItem style={{ marginTop: "3rem" }}>
+            <ListItem style={{ marginTop: '3rem' }}>
               <Button
                 onClick={checkoutHandler}
                 disabled={cartItems.length === 0}
-                variant="contained"
-                color="primary"
+                variant='contained'
+                color='secondary'
                 fullWidth
               >
                 Proceed To Checkout

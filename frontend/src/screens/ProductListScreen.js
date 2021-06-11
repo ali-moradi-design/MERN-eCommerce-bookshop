@@ -22,7 +22,12 @@ import AddIcon from '@material-ui/icons/Add';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Loader from '../components/ui/Loader';
 import Message from '../components/ui/Message';
-import { createProduct, listProducts } from '../actions/productAction';
+import {
+  createProduct,
+  listProducts,
+  deleteProduct,
+} from '../actions/productAction';
+import { PRODUCT_CREATE_RESET } from '../constants/productConstants';
 
 const useStyles = makeStyles((theme) => ({
   checkColor: {
@@ -42,26 +47,50 @@ const ProductListScreen = ({ history, match }) => {
   const productList = useSelector((state) => state.productList);
   const { loading, error, products } = productList;
 
+  const productDelete = useSelector((state) => state.productDelete);
+  const {
+    loading: loadingDelete,
+    error: errorDelete,
+    success: successDelete,
+  } = productDelete;
+
+  const productCreate = useSelector((state) => state.productCreate);
+  const {
+    loading: loadingCreate,
+    error: errorCreate,
+    success: successCreate,
+    product: createdProduct,
+  } = productCreate;
+
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
   useEffect(() => {
-    if (userInfo && userInfo.isAdmin) {
-      dispatch(listProducts());
-    } else {
+    dispatch({ type: PRODUCT_CREATE_RESET });
+    if (!userInfo.isAdmin) {
       history.push('/login');
     }
-  }, [dispatch, history, userInfo]);
+    if (successCreate) {
+      history.push(`/admin/product/${createdProduct._id}/edit`);
+    } else {
+      dispatch(listProducts());
+    }
+  }, [
+    dispatch,
+    history,
+    userInfo,
+    successDelete,
+    successCreate,
+    createdProduct,
+  ]);
 
   const deleteHandler = (id) => {
     if (window.confirm('Are you sure')) {
-      //   dispatch(deleteUser(id));
+      dispatch(deleteProduct(id));
     }
   };
   const createProductHandler = () => {
-    if (window.confirm('Are you sure')) {
-      //   dispatch(deleteUser(id));
-    }
+    dispatch(createProduct());
   };
 
   return (
@@ -85,6 +114,10 @@ const ProductListScreen = ({ history, match }) => {
           </Button>
         </Grid>
       </Grid>
+      {loadingDelete && <Loader />}
+      {errorDelete && <Message severity='error'>{errorDelete}</Message>}
+      {loadingCreate && <Loader />}
+      {errorCreate && <Message severity='error'>{errorCreate}</Message>}
       {loading ? (
         <Loader />
       ) : error ? (

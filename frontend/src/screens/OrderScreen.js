@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const OrderScreen = ({ match }) => {
+const OrderScreen = ({ match, history }) => {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -84,6 +84,9 @@ const OrderScreen = ({ match }) => {
   }
 
   useEffect(() => {
+    if (!userInfo) {
+      history.push('/login');
+    }
     const addPayPalScript = async () => {
       const { data: clientId } = await axios.get('/api/config/paypal');
       const script = document.createElement('script');
@@ -102,7 +105,7 @@ const OrderScreen = ({ match }) => {
       dispatch(getOrderDetails(orderId));
     } else if (!order.isPaid) {
       if (!window.paypal) {
-        addPayPalScript();
+        // addPayPalScript();
       } else {
         setSdkReady(true);
       }
@@ -111,7 +114,11 @@ const OrderScreen = ({ match }) => {
 
   const successPaymentHandler = (paymentResult) => {
     console.log(paymentResult);
-    dispatch(payOrder(orderId, paymentResult));
+    // dispatch(payOrder(orderId, paymentResult));
+  };
+
+  const deliverHandler = () => {
+    dispatch(deliverOrder(order));
   };
 
   return loading ? (
@@ -280,10 +287,29 @@ const OrderScreen = ({ match }) => {
                 </Grid>
               </ListItem>
               {!order.isPaid && (
-                <PayPalButton
-                  amount={order.totalPrice}
-                  onSuccess={successPaymentHandler}
-                />
+                <ListItem style={{ marginTop: '3rem' }}>
+                  <Button
+                    disabled
+                    variant='contained'
+                    color='primary'
+                    fullWidth
+                  >
+                    Pay
+                  </Button>
+                </ListItem>
+              )}
+              {loadingDeliver && <Loader />}
+              {userInfo && userInfo.isAdmin && !order.isDelivered && (
+                <ListItem>
+                  <Button
+                    onClick={deliverHandler}
+                    variant='contained'
+                    color='secondary'
+                    fullWidth
+                  >
+                    Mark As Delivered
+                  </Button>
+                </ListItem>
               )}
             </List>
           </Card>

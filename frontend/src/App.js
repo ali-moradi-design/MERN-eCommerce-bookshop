@@ -18,6 +18,8 @@ import OrderScreen from './screens/OrderScreen';
 import UserListScreen from './screens/UserListScreen';
 import UserEditScreen from './screens/UserEditScreen';
 import ProductListScreen from './screens/ProductListScreen';
+import ProductEditScreen from './screens/ProductEditScreen';
+import OrderListScreen from './screens/OrderListScreen';
 
 const App = () => {
   const [value, setValue] = useState(0);
@@ -104,9 +106,21 @@ const App = () => {
                 )}
               />
               <Route
+                path='/admin/orderlist'
+                render={(props) => (
+                  <OrderListScreen {...props} setValue={setValue} />
+                )}
+              />
+              <Route
                 path='/admin/user/:id/edit'
                 render={(props) => (
                   <UserEditScreen {...props} setValue={setValue} />
+                )}
+              />
+              <Route
+                path='/admin/product/:id/edit'
+                render={(props) => (
+                  <ProductEditScreen {...props} setValue={setValue} />
                 )}
               />
             </Switch>
