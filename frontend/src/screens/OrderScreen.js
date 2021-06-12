@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { PayPalButton } from 'react-paypal-button-v2';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 import { useTheme } from '@material-ui/core/styles';
@@ -14,11 +12,7 @@ import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
 import Loader from '../components/ui/Loader';
 import Alert from '@material-ui/lab/Alert';
-import {
-  getOrderDetails,
-  payOrder,
-  deliverOrder,
-} from '../actions/orderAction';
+import { getOrderDetails, deliverOrder } from '../actions/orderAction';
 import {
   ORDER_PAY_RESET,
   ORDER_DELIVER_RESET,
@@ -55,8 +49,6 @@ const OrderScreen = ({ match, history }) => {
   const classes = useStyles();
   const theme = useTheme();
 
-  const [sdkReady, setSdkReady] = useState(false);
-
   const orderId = match.params.id;
 
   const dispatch = useDispatch();
@@ -65,7 +57,7 @@ const OrderScreen = ({ match, history }) => {
   const { order, loading, error } = orderDetails;
 
   const orderPay = useSelector((state) => state.orderPay);
-  const { loading: loadingPay, success: successPay } = orderPay;
+  const { success: successPay } = orderPay;
 
   const orderDeliver = useSelector((state) => state.orderDeliver);
   const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
@@ -87,35 +79,13 @@ const OrderScreen = ({ match, history }) => {
     if (!userInfo) {
       history.push('/login');
     }
-    const addPayPalScript = async () => {
-      const { data: clientId } = await axios.get('/api/config/paypal');
-      const script = document.createElement('script');
-      script.type = 'text/javascript';
-      script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
-      script.async = true;
-      script.onload = () => {
-        setSdkReady(true);
-      };
-      document.body.appendChild(script);
-    };
 
     if (!order || successPay || successDeliver || order._id !== orderId) {
       dispatch({ type: ORDER_PAY_RESET });
       dispatch({ type: ORDER_DELIVER_RESET });
       dispatch(getOrderDetails(orderId));
-    } else if (!order.isPaid) {
-      if (!window.paypal) {
-        // addPayPalScript();
-      } else {
-        setSdkReady(true);
-      }
     }
-  }, [dispatch, orderId, successPay, order, successDeliver]);
-
-  const successPaymentHandler = (paymentResult) => {
-    console.log(paymentResult);
-    // dispatch(payOrder(orderId, paymentResult));
-  };
+  }, [dispatch, orderId, successPay, order, successDeliver, history, userInfo]);
 
   const deliverHandler = () => {
     dispatch(deliverOrder(order));

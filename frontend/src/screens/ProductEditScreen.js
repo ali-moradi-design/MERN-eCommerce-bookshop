@@ -8,7 +8,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Loader from '../components/ui/Loader';
 import Snack from '../components/ui/Snack';
 import FormContainer from '../components/ui/FormContainer';

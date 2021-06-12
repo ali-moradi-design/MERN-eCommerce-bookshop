@@ -2,14 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/styles';
-import { useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Loader from '../components/ui/Loader';
 import Snack from '../components/ui/Snack';
 import FormContainer from '../components/ui/FormContainer';
@@ -41,9 +38,6 @@ const useStyles = makeStyles((theme) => ({
 
 const UserEditScreen = ({ match, history }) => {
   const classes = useStyles();
-  const theme = useTheme();
-  // const matchesMD = useMediaQuery(theme.breakpoints.down("md"));
-  // const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
 
   const userId = match.params.id;
 

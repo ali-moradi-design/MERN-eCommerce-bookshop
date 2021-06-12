@@ -2,9 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/styles';
-import { useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
 import Table from '@material-ui/core/Table';
@@ -18,7 +16,6 @@ import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Loader from '../components/ui/Loader';
 import Message from '../components/ui/Message';
 import { listUsers, deleteUser } from '../actions/userAction';
@@ -34,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
 
 const UserListScreen = ({ history }) => {
   const classes = useStyles();
-  const theme = useTheme();
 
   const dispatch = useDispatch();
 

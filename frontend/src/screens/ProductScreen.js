@@ -19,6 +19,7 @@ import { makeStyles } from '@material-ui/styles';
 import { useTheme } from '@material-ui/core/styles';
 import Loader from '../components/ui/Loader';
 import Message from '../components/ui/Message';
+import Meta from '../components/ui/Meta';
 import {
   listProductDetails,
   createProductReview,
@@ -26,15 +27,6 @@ import {
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
 
 const useStyles = makeStyles((theme) => ({
-  toolbarMargin: {
-    marginBottom: '1em',
-    [theme.breakpoints.down('md')]: {
-      marginBottom: '0.8em',
-    },
-    [theme.breakpoints.down('xs')]: {
-      marginBottom: '0.6em',
-    },
-  },
   button: {
     backgroundColor: '#ccc',
     marginBottom: '1rem',
@@ -71,16 +63,13 @@ const ProductScreen = ({ history, match }) => {
   const theme = useTheme();
   const matchesSM = useMediaQuery(theme.breakpoints.down('sm'));
   const [qty, setQty] = useState(1);
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState(5);
   const [comment, setComment] = useState('');
 
   const dispatch = useDispatch();
 
   const productDetails = useSelector((state) => state.productDetails);
   const { loading, error, product } = productDetails;
-
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
 
   const productReviewCreate = useSelector((state) => state.productReviewCreate);
   const {
@@ -89,16 +78,21 @@ const ProductScreen = ({ history, match }) => {
     error: errorProductReview,
   } = productReviewCreate;
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   useEffect(() => {
     if (successProductReview) {
       setRating(0);
       setComment('');
+      dispatch(listProductDetails(match.params.id));
+      dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
     }
     if (!product._id || product._id !== match.params.id) {
       dispatch(listProductDetails(match.params.id));
       dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
     }
-  }, [dispatch, match, successProductReview]);
+  }, [dispatch, match, successProductReview, product]);
 
   const addToCartHandler = () => {
     history.push(`/cart/${match.params.id}?qty=${qty}`);
@@ -130,6 +124,7 @@ const ProductScreen = ({ history, match }) => {
         <Message severity='error'>{error}</Message>
       ) : (
         <>
+          <Meta title={product.name} />
           <Grid container className={classes.container}>
             <Grid item md={5}>
               <img
@@ -165,7 +160,6 @@ const ProductScreen = ({ history, match }) => {
                         </Grid>
                       </Grid>
                     }
-                    reviws
                   />
                 </ListItem>
                 <ListItem>

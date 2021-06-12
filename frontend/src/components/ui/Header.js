@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -9,8 +9,6 @@ import { makeStyles } from '@material-ui/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Button from '@material-ui/core/Button';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { useTheme } from '@material-ui/core/styles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -20,6 +18,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Hidden from '@material-ui/core/Hidden';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import SearchBox from './SearchBox';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import PersonIcon from '@material-ui/icons/Person';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -133,7 +132,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Header(props) {
   const classes = useStyles(props);
-  const theme = useTheme();
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
 
   const dispatch = useDispatch();
@@ -161,10 +159,12 @@ export default function Header(props) {
 
   const tabs = (
     <React.Fragment>
+      <Route
+        render={({ history }) => <SearchBox {...props} history={history} />}
+      />
       <Tabs
         value={props.value}
         onChange={handleChange}
-        className={classes.tabContainer}
         indicatorColor='secondary'
       >
         <Tab label='HOME' component={Link} to='/' className={classes.tab} />

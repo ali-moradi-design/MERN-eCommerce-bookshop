@@ -40,6 +40,36 @@ const App = () => {
                 )}
               />
               <Route
+                path='/search/:keyword'
+                render={(props) => (
+                  <HomeScreen
+                    {...props}
+                    history={props.history}
+                    setValue={setValue}
+                  />
+                )}
+              />
+              <Route
+                path='/page/:pageNumber'
+                render={(props) => (
+                  <HomeScreen
+                    {...props}
+                    history={props.history}
+                    setValue={setValue}
+                  />
+                )}
+              />
+              <Route
+                path='/search/:keyword/page/:pageNumber'
+                render={(props) => (
+                  <HomeScreen
+                    {...props}
+                    history={props.history}
+                    setValue={setValue}
+                  />
+                )}
+              />
+              <Route
                 path='/product/:id'
                 render={(props) => (
                   <ProductScreen {...props} setValue={setValue} />
@@ -100,7 +130,15 @@ const App = () => {
                 )}
               />
               <Route
+                exact
                 path='/admin/productlist'
+                render={(props) => (
+                  <ProductListScreen {...props} setValue={setValue} />
+                )}
+              />
+              <Route
+                exact
+                path='/admin/productlist/:pageNumber'
                 render={(props) => (
                   <ProductListScreen {...props} setValue={setValue} />
                 )}

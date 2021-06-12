@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
-import { useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import FormContainer from '../components/ui/FormContainer';
@@ -35,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
 
 const ShippingScreen = ({ history }) => {
   const classes = useStyles();
-  const theme = useTheme();
 
   const cart = useSelector((state) => state.cart);
   const { shippingAddress } = cart;

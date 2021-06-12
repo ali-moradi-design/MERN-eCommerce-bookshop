@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/styles';
-import { useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
@@ -14,14 +13,12 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import CheckIcon from '@material-ui/icons/Check';
-import CloseIcon from '@material-ui/icons/Close';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Loader from '../components/ui/Loader';
 import Message from '../components/ui/Message';
+import Paginate from '../components/ui/Paginate';
 import {
   createProduct,
   listProducts,
@@ -40,12 +37,13 @@ const useStyles = makeStyles((theme) => ({
 
 const ProductListScreen = ({ history, match }) => {
   const classes = useStyles();
-  const theme = useTheme();
+
+  const pageNumber = match.params.pageNumber || 1;
 
   const dispatch = useDispatch();
 
   const productList = useSelector((state) => state.productList);
-  const { loading, error, products } = productList;
+  const { loading, error, products, page, pages } = productList;
 
   const productDelete = useSelector((state) => state.productDelete);
   const {
@@ -73,7 +71,7 @@ const ProductListScreen = ({ history, match }) => {
     if (successCreate) {
       history.push(`/admin/product/${createdProduct._id}/edit`);
     } else {
-      dispatch(listProducts());
+      dispatch(listProducts('', pageNumber));
     }
   }, [
     dispatch,
@@ -82,6 +80,7 @@ const ProductListScreen = ({ history, match }) => {
     successDelete,
     successCreate,
     createdProduct,
+    pageNumber,
   ]);
 
   const deleteHandler = (id) => {
@@ -123,49 +122,57 @@ const ProductListScreen = ({ history, match }) => {
       ) : error ? (
         <Message severity='error'>{error}</Message>
       ) : (
-        <TableContainer component={Paper} style={{ margin: '1rem' }}>
-          <Table className={classes.table} aria-label='simple table'>
-            <TableHead>
-              <TableRow>
-                <TableCell align='center'>ID</TableCell>
-                <TableCell align='center'>NAME</TableCell>
-                <TableCell align='center'>PRICE</TableCell>
-                <TableCell align='center'>CATEGORY</TableCell>
-                <TableCell align='center'>BRAND</TableCell>
-                <TableCell align='center'></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {products.map((product) => (
-                <TableRow key={product._id}>
-                  <TableCell align='center'>{product._id}</TableCell>
-                  <TableCell align='center'>{product.name}</TableCell>
-                  <TableCell align='center'>${product.price}</TableCell>
-                  <TableCell align='center'>{product.category}</TableCell>
-                  <TableCell align='center'>{product.brand}</TableCell>
-                  <TableCell align='center'>
-                    <ButtonGroup aria-label='small outlined button group'>
-                      <Button
-                        variant='contained'
-                        component={Link}
-                        to={`/admin/product/${product._id}/edit`}
-                      >
-                        <EditIcon />
-                      </Button>
-                      <Button
-                        variant='contained'
-                        color='primary'
-                        onClick={() => deleteHandler(product._id)}
-                      >
-                        <DeleteIcon />
-                      </Button>
-                    </ButtonGroup>
-                  </TableCell>
+        <>
+          <TableContainer component={Paper} style={{ margin: '1rem' }}>
+            <Table className={classes.table} aria-label='simple table'>
+              <TableHead>
+                <TableRow>
+                  <TableCell align='center'>ID</TableCell>
+                  <TableCell align='center'>NAME</TableCell>
+                  <TableCell align='center'>PRICE</TableCell>
+                  <TableCell align='center'>CATEGORY</TableCell>
+                  <TableCell align='center'>BRAND</TableCell>
+                  <TableCell align='center'></TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {products.map((product) => (
+                  <TableRow key={product._id}>
+                    <TableCell align='center'>{product._id}</TableCell>
+                    <TableCell align='center'>{product.name}</TableCell>
+                    <TableCell align='center'>${product.price}</TableCell>
+                    <TableCell align='center'>{product.category}</TableCell>
+                    <TableCell align='center'>{product.brand}</TableCell>
+                    <TableCell align='center'>
+                      <ButtonGroup aria-label='small outlined button group'>
+                        <Button
+                          variant='contained'
+                          component={Link}
+                          to={`/admin/product/${product._id}/edit`}
+                        >
+                          <EditIcon />
+                        </Button>
+                        <Button
+                          variant='contained'
+                          color='primary'
+                          onClick={() => deleteHandler(product._id)}
+                        >
+                          <DeleteIcon />
+                        </Button>
+                      </ButtonGroup>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <Paginate
+            pages={pages}
+            page={page}
+            history={history}
+            isAdmin={true}
+          />
+        </>
       )}
     </>
   );

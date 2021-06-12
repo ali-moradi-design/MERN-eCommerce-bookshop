@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/styles';
-import { useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
@@ -12,7 +11,6 @@ import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Message from '../components/ui/Message';
 import { addToCart, removeFromCart } from '../actions/cartAction';
@@ -28,9 +26,6 @@ const useStyles = makeStyles((theme) => ({
 
 const CartScreen = ({ match, location, history }) => {
   const classes = useStyles();
-  const theme = useTheme();
-  const matchesMD = useMediaQuery(theme.breakpoints.down('md'));
-  const matchesSM = useMediaQuery(theme.breakpoints.down('sm'));
 
   const dispatch = useDispatch();
 
