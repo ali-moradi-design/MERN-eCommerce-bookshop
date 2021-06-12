@@ -131,7 +131,7 @@ const ProductListScreen = ({ history, match }) => {
                   <TableCell align='center'>NAME</TableCell>
                   <TableCell align='center'>PRICE</TableCell>
                   <TableCell align='center'>CATEGORY</TableCell>
-                  <TableCell align='center'>BRAND</TableCell>
+                  <TableCell align='center'>AUTHOR</TableCell>
                   <TableCell align='center'></TableCell>
                 </TableRow>
               </TableHead>

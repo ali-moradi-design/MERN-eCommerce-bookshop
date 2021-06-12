@@ -212,7 +212,7 @@ const ProductEditScreen = ({ match, history }) => {
               required
               fullWidth
               id='brand'
-              label='Brand'
+              label='Author'
               name='brand'
               value={brand}
               onChange={(e) => setBrand(e.target.value)}

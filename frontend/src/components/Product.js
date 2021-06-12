@@ -10,10 +10,10 @@ import Grid from '@material-ui/core/Grid';
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: '1rem',
-    height: 430,
+    height: 530,
   },
   media: {
-    height: 250,
+    height: 370,
     width: '100%',
     boxShadow: theme.shadows[1],
     borderRadius: 5,

@@ -65,22 +65,22 @@ const CartScreen = ({ match, location, history }) => {
               <div key={item.product}>
                 <ListItem>
                   <Grid container justify='space-between' alignItems='center'>
-                    <Grid item sm={2}>
+                    <Grid item md={2}>
                       <img
                         className={classes.smallImage}
                         src={item.image}
                         alt={item.name}
                       />
                     </Grid>
-                    <Grid item sm={3}>
+                    <Grid item md={3}>
                       <Button component={Link} to={`./product/${item.product}`}>
                         {item.name}
                       </Button>
                     </Grid>
-                    <Grid item sm={2}>
+                    <Grid item md={2}>
                       ${item.price}
                     </Grid>
-                    <Grid item sm={2}>
+                    <Grid item md={2}>
                       <Select
                         labelId='qty'
                         id='qty'
@@ -103,7 +103,7 @@ const CartScreen = ({ match, location, history }) => {
                         ))}
                       </Select>
                     </Grid>
-                    <Grid item sm={2}>
+                    <Grid item md={2}>
                       <Button
                         onClick={() => removeFromCartHandler(item.product)}
                         style={{ padding: '1rem', borderRadius: 5 }}

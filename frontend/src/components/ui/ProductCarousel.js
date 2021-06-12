@@ -13,7 +13,8 @@ import 'slick-carousel/slick/slick-theme.css';
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    background: '#acacac9d',
+    background: '#e0e0e05c',
+    padding: '0 2rem',
     borderRadius: 5,
     boxShadow: theme.shadows[5],
   },

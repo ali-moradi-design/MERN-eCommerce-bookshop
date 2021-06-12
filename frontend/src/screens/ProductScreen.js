@@ -231,15 +231,13 @@ const ProductScreen = ({ history, match }) => {
           </Grid>
           <Grid container>
             <Grid item sm={5}>
-              <Typography variant='h2' style={{ marginLeft: '1rem' }}>
-                Reviews
-              </Typography>
+              <Typography variant='h2'>Reviews</Typography>
 
               {product.reviews.length === 0 && (
                 <Alert
                   variant='outlined'
                   severity='info'
-                  style={{ margin: '1rem 0 1rem 1rem' }}
+                  style={{ margin: '1rem 0' }}
                 >
                   No Reviews
                 </Alert>
@@ -247,7 +245,7 @@ const ProductScreen = ({ history, match }) => {
               <List>
                 {product.reviews.map((review) => (
                   <React.Fragment key={review._id}>
-                    <ListItem>
+                    <ListItem disableGutters>
                       <Grid
                         container
                         alignItems='center'
@@ -281,10 +279,10 @@ const ProductScreen = ({ history, match }) => {
                         </Grid>
                       </Grid>
                     </ListItem>
-                    <Divider />
+                    <Divider style={{ marginTop: '1rem' }} />
                   </React.Fragment>
                 ))}
-                <ListItem style={{ marginTop: '1rem' }}>
+                <ListItem style={{ marginTop: '1rem' }} disableGutters>
                   <Typography variant='body1'>
                     Write a Customer Review
                   </Typography>
@@ -293,7 +291,7 @@ const ProductScreen = ({ history, match }) => {
                   <Alert
                     variant='outlined'
                     severity='success'
-                    style={{ margin: '1rem 0 1rem 1rem' }}
+                    style={{ margin: '1rem 0' }}
                   >
                     Review submitted successfully
                   </Alert>
@@ -303,13 +301,13 @@ const ProductScreen = ({ history, match }) => {
                   <Alert
                     variant='outlined'
                     severity='warning'
-                    style={{ margin: '1rem 0 1rem 1rem' }}
+                    style={{ margin: '1rem 0' }}
                   >
                     {errorProductReview}
                   </Alert>
                 )}
                 {userInfo ? (
-                  <ListItem>
+                  <ListItem disableGutters>
                     <form className={classes.form} noValidate>
                       <Select
                         labelId='rating'
@@ -354,7 +352,7 @@ const ProductScreen = ({ history, match }) => {
                   <Alert
                     variant='outlined'
                     severity='info'
-                    style={{ margin: '1rem 0 1rem 1rem' }}
+                    style={{ margin: '1rem 0' }}
                   >
                     Please{' '}
                     <Button

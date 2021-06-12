@@ -15,7 +15,12 @@ const Paginate = ({ pages, page, isAdmin = false, keyword = '', history }) => {
   };
   return (
     pages > 1 && (
-      <Pagination count={pages} page={page} onChange={handleChange} />
+      <Pagination
+        count={pages}
+        page={page}
+        onChange={handleChange}
+        style={{ marginBottom: '2rem' }}
+      />
     )
   );
 };
