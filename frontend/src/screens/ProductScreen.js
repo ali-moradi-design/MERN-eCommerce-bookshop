@@ -254,7 +254,7 @@ const ProductScreen = ({ history, match }) => {
                         justify='space-between'
                       >
                         <Grid item>
-                          <Typography variant='h5'>{review.name} </Typography>
+                          <Typography variant='h4'>{review.name} </Typography>
                         </Grid>
                         <Grid item>
                           <Rating

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/styles';
 import Product from '../components/Product';
@@ -55,7 +56,7 @@ const HomeScreen = ({ match, history }) => {
           Go Back
         </Button>
       )}
-      <h1>Latest Products</h1>
+      <Typography variant='h1'>Latest Products</Typography>
       {loading ? (
         <Loader />
       ) : error ? (

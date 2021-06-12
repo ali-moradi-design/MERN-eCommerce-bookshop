@@ -87,7 +87,7 @@ const ProfileScreen = ({ match, location, history }) => {
     <Grid container>
       <Grid item sm={3} style={{ paddingRight: '2rem' }}>
         <Typography variant='h2' align='left'>
-          User profile
+          User Profile
         </Typography>
         {message && <Snack error={message} />}
         {success && <Snack error='Profile Updated' />}

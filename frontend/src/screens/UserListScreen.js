@@ -86,8 +86,10 @@ const UserListScreen = ({ history }) => {
                   <TableCell align='center'>
                     <Button
                       style={{ textTransform: 'none' }}
-                      component={Link}
-                      to={`mailto:${user.email}`}
+                      component={'a'}
+                      href={`mailto:${user.email}`}
+                      rel='noopener noreferrer'
+                      target='_blank'
                     >
                       {user.email}
                     </Button>
