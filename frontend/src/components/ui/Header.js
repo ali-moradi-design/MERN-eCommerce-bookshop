@@ -22,6 +22,10 @@ import SearchBox from './SearchBox';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import PersonIcon from '@material-ui/icons/Person';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { logout } from '../../actions/userAction';
 
 function ElevationScroll(props) {
@@ -109,13 +113,7 @@ const useStyles = makeStyles((theme) => ({
     ...theme.typography.tab,
     color: 'white',
     padding: '0 2rem',
-    opacity: 0.5,
-  },
-  drawerItemEstimate: {
-    backgroundColor: theme.palette.common.gray,
-    '&:hover': {
-      backgroundColor: '#000',
-    },
+    opacity: 1,
   },
   drawerItemSelected: {
     '& .MuiListItemText-root': {
@@ -127,6 +125,27 @@ const useStyles = makeStyles((theme) => ({
   },
   logout: {
     marginLeft: '1rem',
+  },
+  expansion: {
+    backgroundColor: theme.palette.common.red,
+    borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
+    '&.Mui-expanded': {
+      margin: 0,
+      borderBottom: 0,
+    },
+    '&::before': {
+      backgroundColor: 'rgba(0, 0, 0, 0)',
+    },
+  },
+  expansionDetails: {
+    padding: 0,
+    backgroundColor: theme.palette.common.orange,
+  },
+  expansionSummary: {
+    padding: '0 24px 0 16px',
+    '&:hover': {
+      backgroundColor: 'rgba(0, 0, 0, 0.08)',
+    },
   },
 }));
 
@@ -264,50 +283,57 @@ export default function Header(props) {
             </ListItemText>
           </ListItem>
           {userInfo ? (
-            <>
-              <ListItem
-                selected={props.value === 0}
-                classes={{
-                  root: classes.drawerItemEstimate,
-                  selected: classes.drawerItemEstimate,
-                }}
-                onClick={() => {
-                  setOpenDrawer(false);
-                  props.setValue(0);
-                }}
-                divider
-                button
-                component={Link}
-                to='/profile'
+            <Accordion elevation={0} classes={{ root: classes.expansion }}>
+              <AccordionSummary
+                classes={{ root: classes.expansionSummary }}
+                expandIcon={<ExpandMoreIcon color='secondary' />}
               >
                 <ListItemText className={classes.drawerItem} disableTypography>
-                  {userInfo.name}
+                  Profile
                 </ListItemText>
-              </ListItem>
-              <ListItem
-                classes={{
-                  root: classes.drawerItemEstimate,
-                  selected: classes.drawerItemEstimate,
-                }}
-                onClick={() => {
-                  setOpenDrawer(false);
-                  logoutHandler();
-                }}
-                divider
-                button
-              >
-                <ListItemText className={classes.drawerItem} disableTypography>
-                  logout
-                </ListItemText>
-              </ListItem>
-            </>
+              </AccordionSummary>
+              <AccordionDetails classes={{ root: classes.expansionDetails }}>
+                <Grid container direction='column'>
+                  <Grid item>
+                    <ListItem
+                      divider
+                      button
+                      component={Link}
+                      to='/profile'
+                      classes={{ selected: classes.drawerItemSelected }}
+                      onClick={() => {
+                        setOpenDrawer(false);
+                      }}
+                    >
+                      <ListItemText
+                        className={classes.drawerItem}
+                        disableTypography
+                      >
+                        {userInfo.name}{' '}
+                      </ListItemText>
+                    </ListItem>
+                    <ListItem
+                      onClick={() => {
+                        setOpenDrawer(false);
+                        logoutHandler();
+                      }}
+                      divider
+                      button
+                    >
+                      <ListItemText
+                        className={classes.drawerItem}
+                        disableTypography
+                      >
+                        logout
+                      </ListItemText>
+                    </ListItem>
+                  </Grid>
+                </Grid>
+              </AccordionDetails>
+            </Accordion>
           ) : (
             <ListItem
               selected={props.value === 0}
-              classes={{
-                root: classes.drawerItemEstimate,
-                selected: classes.drawerItemEstimate,
-              }}
               onClick={() => {
                 setOpenDrawer(false);
                 props.setValue(0);
@@ -321,6 +347,75 @@ export default function Header(props) {
                 Sign In
               </ListItemText>
             </ListItem>
+          )}
+          {userInfo && userInfo.isAdmin && (
+            <Accordion elevation={0} classes={{ root: classes.expansion }}>
+              <AccordionSummary
+                classes={{ root: classes.expansionSummary }}
+                expandIcon={<ExpandMoreIcon color='secondary' />}
+              >
+                <ListItemText className={classes.drawerItem} disableTypography>
+                  Admin
+                </ListItemText>
+              </AccordionSummary>
+              <AccordionDetails classes={{ root: classes.expansionDetails }}>
+                <Grid container direction='column'>
+                  <Grid item>
+                    <ListItem
+                      divider
+                      button
+                      component={Link}
+                      to='/admin/userlist'
+                      classes={{ selected: classes.drawerItemSelected }}
+                      onClick={() => {
+                        setOpenDrawer(false);
+                      }}
+                    >
+                      <ListItemText
+                        className={classes.drawerItem}
+                        disableTypography
+                      >
+                        Users
+                      </ListItemText>
+                    </ListItem>
+                    <ListItem
+                      divider
+                      button
+                      component={Link}
+                      to='/admin/productlist'
+                      classes={{ selected: classes.drawerItemSelected }}
+                      onClick={() => {
+                        setOpenDrawer(false);
+                      }}
+                    >
+                      <ListItemText
+                        className={classes.drawerItem}
+                        disableTypography
+                      >
+                        Products
+                      </ListItemText>
+                    </ListItem>
+                    <ListItem
+                      divider
+                      button
+                      component={Link}
+                      to='/admin/orderlist'
+                      classes={{ selected: classes.drawerItemSelected }}
+                      onClick={() => {
+                        setOpenDrawer(false);
+                      }}
+                    >
+                      <ListItemText
+                        className={classes.drawerItem}
+                        disableTypography
+                      >
+                        Orders
+                      </ListItemText>
+                    </ListItem>
+                  </Grid>
+                </Grid>
+              </AccordionDetails>
+            </Accordion>
           )}
         </List>
       </SwipeableDrawer>

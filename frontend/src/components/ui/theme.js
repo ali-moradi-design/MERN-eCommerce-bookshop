@@ -23,7 +23,7 @@ export default createMuiTheme({
   typography: {
     tab: {
       fontFamily: 'Dosis',
-      textTransform: 'none',
+      // textTransform: 'none',
       fontWeight: 700,
       color: 'white',
       fontSize: '1rem',
@@ -114,6 +114,11 @@ export default createMuiTheme({
       root: {
         color: arcOrange,
         fontSize: '1rem',
+      },
+    },
+    MuiAccordionSummary: {
+      content: {
+        margin: 0,
       },
     },
     MuiInput: {

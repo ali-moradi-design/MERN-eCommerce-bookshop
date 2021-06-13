@@ -118,17 +118,7 @@ const LoginScreen = ({ location, history }) => {
         >
           Sign In
         </Button>
-        <Grid container>
-          <Grid item xs>
-            <Typography
-              className={classes.link}
-              component={Link}
-              to='/'
-              variant='body2'
-            >
-              Forgot password?
-            </Typography>
-          </Grid>
+        <Grid container justify='center'>
           <Grid item>
             <Typography
               className={classes.link}
