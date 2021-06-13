@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/styles';
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Typography from '@material-ui/core/Typography';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
@@ -21,11 +23,20 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
     borderRadius: 5,
     boxShadow: theme.shadows[1],
+    [theme.breakpoints.down('sm')]: {
+      width: '5rem',
+    },
+    [theme.breakpoints.down('xs')]: {
+      width: '10rem',
+    },
   },
 }));
 
 const CartScreen = ({ match, location, history }) => {
   const classes = useStyles();
+  const theme = useTheme();
+  const matchesXS = useMediaQuery(theme.breakpoints.down('xs'));
+  const matchesSM = useMediaQuery(theme.breakpoints.down('sm'));
 
   const dispatch = useDispatch();
 
@@ -49,8 +60,12 @@ const CartScreen = ({ match, location, history }) => {
   };
 
   return (
-    <Grid container>
-      <Grid item sm={8}>
+    <Grid
+      container
+      direction={matchesSM ? 'column' : 'row'}
+      alignItems={matchesSM ? undefined : 'center'}
+    >
+      <Grid item md={8}>
         <Typography variant='h1'>Shopping Cart</Typography>
         {cartItems.length === 0 ? (
           <Message>
@@ -64,7 +79,12 @@ const CartScreen = ({ match, location, history }) => {
             {cartItems.map((item) => (
               <div key={item.product}>
                 <ListItem>
-                  <Grid container justify='space-between' alignItems='center'>
+                  <Grid
+                    container
+                    direction={matchesXS ? 'column' : 'row'}
+                    justify={matchesXS ? 'center' : 'space-between'}
+                    alignItems={matchesSM ? 'center' : 'center'}
+                  >
                     <Grid item md={2}>
                       <img
                         className={classes.smallImage}
@@ -72,7 +92,12 @@ const CartScreen = ({ match, location, history }) => {
                         alt={item.name}
                       />
                     </Grid>
-                    <Grid item md={3}>
+                    <Grid
+                      item
+                      md={3}
+                      align='center'
+                      style={{ margin: matchesXS ? '1rem 0' : 0 }}
+                    >
                       <Button component={Link} to={`./product/${item.product}`}>
                         {item.name}
                       </Button>
@@ -80,7 +105,11 @@ const CartScreen = ({ match, location, history }) => {
                     <Grid item md={2}>
                       ${item.price}
                     </Grid>
-                    <Grid item md={2}>
+                    <Grid
+                      item
+                      md={2}
+                      style={{ margin: matchesXS ? '1rem 0' : 0 }}
+                    >
                       <Select
                         labelId='qty'
                         id='qty'
@@ -103,8 +132,10 @@ const CartScreen = ({ match, location, history }) => {
                         ))}
                       </Select>
                     </Grid>
-                    <Grid item md={2}>
+                    <Grid item md={1}>
                       <Button
+                        variant='contained'
+                        color='secondary'
                         onClick={() => removeFromCartHandler(item.product)}
                         style={{ padding: '1rem', borderRadius: 5 }}
                       >
@@ -119,7 +150,7 @@ const CartScreen = ({ match, location, history }) => {
           </List>
         )}
       </Grid>
-      <Grid item sm={4} style={{ marginTop: '3rem', padding: '1rem' }}>
+      <Grid item md={4} style={{ marginTop: '3rem', padding: '1rem' }}>
         <Card>
           <List>
             <ListItem>

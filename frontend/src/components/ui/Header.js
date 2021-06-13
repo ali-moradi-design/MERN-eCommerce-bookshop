@@ -126,7 +126,7 @@ const useStyles = makeStyles((theme) => ({
     zIndex: theme.zIndex.modal + 1,
   },
   logout: {
-    marginLeft: '2rem',
+    marginLeft: '1rem',
   },
 }));
 

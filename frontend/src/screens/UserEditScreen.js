@@ -14,6 +14,15 @@ import { getUserDetails, updateUser } from '../actions/userAction';
 import { USER_UPDATE_RESET } from '../constants/userConstants';
 
 const useStyles = makeStyles((theme) => ({
+  button: {
+    marginBottom: '1rem',
+    [theme.breakpoints.down('md')]: {
+      marginTop: '1rem',
+    },
+    [theme.breakpoints.down('sm')]: {
+      marginTop: '1rem',
+    },
+  },
   smallImage: {
     width: '100%',
     height: '100%',
@@ -38,7 +47,6 @@ const useStyles = makeStyles((theme) => ({
 
 const UserEditScreen = ({ match, history }) => {
   const classes = useStyles();
-
   const userId = match.params.id;
 
   const [name, setName] = useState('');

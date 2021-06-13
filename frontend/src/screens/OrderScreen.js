@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
 import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -24,6 +25,12 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
     borderRadius: 5,
     boxShadow: theme.shadows[1],
+    [theme.breakpoints.down('sm')]: {
+      width: '5rem',
+    },
+    [theme.breakpoints.down('xs')]: {
+      width: '17rem',
+    },
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -48,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
 const OrderScreen = ({ match, history }) => {
   const classes = useStyles();
   const theme = useTheme();
+  const matchesMD = useMediaQuery(theme.breakpoints.down('md'));
 
   const orderId = match.params.id;
 
@@ -98,8 +106,13 @@ const OrderScreen = ({ match, history }) => {
   ) : (
     <>
       <Typography variant='h1'> Order {order._id}</Typography>
-      <Grid container style={{ marginTop: theme.spacing(4) }}>
-        <Grid item sm={8} style={{ paddingRight: theme.spacing(8) }}>
+      <Grid
+        container
+        direction={matchesMD ? 'column' : 'row'}
+        alignItems={matchesMD && 'center'}
+        style={{ marginTop: theme.spacing(2) }}
+      >
+        <Grid item md={8} style={{ paddingRight: theme.spacing(8) }}>
           <List disablePadding>
             <ListItem>
               <Typography variant='h2'>Shipping</Typography>
@@ -210,7 +223,7 @@ const OrderScreen = ({ match, history }) => {
             )}
           </List>
         </Grid>
-        <Grid item sm={4}>
+        <Grid item md={4} style={{ padding: matchesMD ? '2rem 1rem' : 0 }}>
           <Card>
             <List>
               <ListItem>

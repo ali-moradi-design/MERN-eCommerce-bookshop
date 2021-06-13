@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import FormContainer from '../components/ui/FormContainer';
 import CheckoutSteps from '../components/ui/CheckoutSteps';
 import Snack from '../components/ui/Snack';
@@ -22,6 +23,12 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
     borderRadius: 5,
     boxShadow: theme.shadows[1],
+    [theme.breakpoints.down('sm')]: {
+      width: '5rem',
+    },
+    [theme.breakpoints.down('xs')]: {
+      width: '17rem',
+    },
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -46,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
 const PlaceOrderScreen = ({ history }) => {
   const classes = useStyles();
   const theme = useTheme();
+  const matchesMD = useMediaQuery(theme.breakpoints.down('md'));
 
   const dispatch = useDispatch();
 
@@ -98,8 +106,13 @@ const PlaceOrderScreen = ({ history }) => {
       <FormContainer>
         <CheckoutSteps history={history} />
       </FormContainer>
-      <Grid container style={{ marginTop: theme.spacing(4) }}>
-        <Grid item sm={8} style={{ paddingRight: theme.spacing(8) }}>
+      <Grid
+        container
+        direction={matchesMD ? 'column' : 'row'}
+        alignItems={matchesMD && 'center'}
+        style={{ marginTop: theme.spacing(4) }}
+      >
+        <Grid item md={8} style={{ paddingRight: theme.spacing(8) }}>
           <List disablePadding>
             <ListItem>
               <Typography variant='h2'>Shipping</Typography>
@@ -171,7 +184,7 @@ const PlaceOrderScreen = ({ history }) => {
             )}
           </List>
         </Grid>
-        <Grid item sm={4}>
+        <Grid item md={4} style={{ padding: matchesMD ? '2rem 1rem' : 0 }}>
           <Card>
             <List>
               <ListItem>

@@ -28,15 +28,23 @@ import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
 
 const useStyles = makeStyles((theme) => ({
   button: {
-    backgroundColor: '#ccc',
     marginBottom: '1rem',
+    [theme.breakpoints.down('md')]: {
+      marginTop: '1rem',
+    },
+    [theme.breakpoints.down('sm')]: {
+      marginTop: '1rem',
+    },
   },
   image: {
-    width: '30rem',
+    width: '25rem',
     borderRadius: 5,
     boxShadow: theme.shadows[5],
     [theme.breakpoints.down('md')]: {
       width: '20rem',
+    },
+    [theme.breakpoints.down('sm')]: {
+      width: '17rem',
     },
   },
   container: {
@@ -50,6 +58,11 @@ const useStyles = makeStyles((theme) => ({
   description: {
     border: `2px solid ${theme.palette.common.orange}`,
     padding: '0.5rem',
+    width: '96%',
+    [theme.breakpoints.down('sm')]: {
+      padding: '0rem',
+      width: '100%',
+    },
   },
   select: {
     '&::before': {
@@ -62,6 +75,7 @@ const ProductScreen = ({ history, match }) => {
   const classes = useStyles();
   const theme = useTheme();
   const matchesSM = useMediaQuery(theme.breakpoints.down('sm'));
+  const matchesMD = useMediaQuery(theme.breakpoints.down('md'));
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState('');
@@ -125,15 +139,24 @@ const ProductScreen = ({ history, match }) => {
       ) : (
         <>
           <Meta title={product.name} />
-          <Grid container className={classes.container}>
-            <Grid item md={5}>
+          <Grid
+            container
+            direction={matchesSM ? 'column' : 'row'}
+            alignItems={matchesSM ? 'center' : undefined}
+            className={classes.container}
+          >
+            <Grid item md={4} style={{ marginTop: matchesSM ? '1rem' : 0 }}>
               <img
                 src={product.image}
                 alt={product.name}
                 className={classes.image}
               />
             </Grid>
-            <Grid item md={4} style={{ paddingRight: '2rem' }}>
+            <Grid
+              item
+              md={5}
+              style={{ padding: '0 2rem', margin: matchesSM ? '1rem 0' : 0 }}
+            >
               <List aria-label='secondary mailbox folders'>
                 <ListItem>
                   <ListItemText
@@ -172,7 +195,11 @@ const ProductScreen = ({ history, match }) => {
                 </ListItem>
               </List>
             </Grid>
-            <Grid item md={3} style={{ marginTop: '1rem' }}>
+            <Grid
+              item
+              md={3}
+              style={{ marginTop: '1rem', padding: matchesMD ? '0 2rem' : 0 }}
+            >
               <Card>
                 <List>
                   <ListItem>
@@ -196,7 +223,13 @@ const ProductScreen = ({ history, match }) => {
                           <Select
                             labelId='qty'
                             id='qty'
-                            style={{ width: matchesSM ? 250 : '13.8em' }}
+                            style={{
+                              width: matchesSM
+                                ? '20rem'
+                                : matchesMD
+                                ? 180
+                                : '13.8em',
+                            }}
                             displayEmpty
                             renderValue={qty > 0 ? undefined : () => 'Quantity'}
                             value={qty}

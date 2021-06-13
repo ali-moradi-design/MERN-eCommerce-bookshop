@@ -15,6 +15,15 @@ import { listProductDetails, updateProduct } from '../actions/productAction';
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants';
 
 const useStyles = makeStyles((theme) => ({
+  button: {
+    marginBottom: '1rem',
+    [theme.breakpoints.down('md')]: {
+      marginTop: '1rem',
+    },
+    [theme.breakpoints.down('sm')]: {
+      marginTop: '1rem',
+    },
+  },
   smallImage: {
     width: '100%',
     height: '100%',

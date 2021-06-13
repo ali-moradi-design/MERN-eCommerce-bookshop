@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/styles';
+import { useTheme } from '@material-ui/core/styles';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
@@ -38,6 +40,8 @@ const useStyles = makeStyles((theme) => ({
 
 const ProfileScreen = ({ match, location, history }) => {
   const classes = useStyles();
+  const theme = useTheme();
+  const matchesMD = useMediaQuery(theme.breakpoints.down('md'));
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -85,7 +89,7 @@ const ProfileScreen = ({ match, location, history }) => {
 
   return (
     <Grid container>
-      <Grid item sm={3} style={{ paddingRight: '2rem' }}>
+      <Grid item md={3} style={{ paddingRight: '2rem' }}>
         <Typography variant='h2' align='left'>
           User Profile
         </Typography>
@@ -158,8 +162,14 @@ const ProfileScreen = ({ match, location, history }) => {
           </Button>
         </form>
       </Grid>
-      <Grid item sm={9}>
-        <Typography variant='h2' style={{ paddingLeft: '1rem' }}>
+      <Grid item md={9} style={{ maxWidth: '100%' }}>
+        <Typography
+          variant='h2'
+          style={{
+            paddingLeft: '1rem',
+            marginTop: matchesMD && '1rem',
+          }}
+        >
           My Orders
         </Typography>
         {loadingOrders ? (
