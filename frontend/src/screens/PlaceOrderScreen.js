@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
       width: '5rem',
     },
     [theme.breakpoints.down('xs')]: {
-      width: '17rem',
+      width: '15rem',
     },
   },
   form: {
@@ -39,6 +39,9 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1.5, 1.5),
     backgroundColor: '#000',
     color: '#fff',
+  },
+  orderSummary: {
+    margin: '1rem 0',
   },
   link: {
     color: '#000',
@@ -54,6 +57,7 @@ const PlaceOrderScreen = ({ history }) => {
   const classes = useStyles();
   const theme = useTheme();
   const matchesMD = useMediaQuery(theme.breakpoints.down('md'));
+  const matchesSM = useMediaQuery(theme.breakpoints.down('sm'));
 
   const dispatch = useDispatch();
 
@@ -112,7 +116,11 @@ const PlaceOrderScreen = ({ history }) => {
         alignItems={matchesMD && 'center'}
         style={{ marginTop: theme.spacing(4) }}
       >
-        <Grid item md={8} style={{ paddingRight: theme.spacing(8) }}>
+        <Grid
+          item
+          md={8}
+          style={{ paddingRight: matchesSM ? 0 : theme.spacing(8) }}
+        >
           <List disablePadding>
             <ListItem>
               <Typography variant='h2'>Shipping</Typography>
@@ -184,7 +192,7 @@ const PlaceOrderScreen = ({ history }) => {
             )}
           </List>
         </Grid>
-        <Grid item md={4} style={{ padding: matchesMD ? '2rem 1rem' : 0 }}>
+        <Grid item md={4} className={classes.orderSummary}>
           <Card>
             <List>
               <ListItem>

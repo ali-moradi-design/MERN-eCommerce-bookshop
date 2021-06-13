@@ -53,7 +53,7 @@ export default createMuiTheme({
       fontWeight: 500,
       fontFamily: 'Dosis',
       fontSize: '2rem',
-      color: white,
+      color: '#000',
     },
     h4: {
       fontFamily: 'Dosis',

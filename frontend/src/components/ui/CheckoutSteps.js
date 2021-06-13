@@ -7,6 +7,9 @@ import StepButton from '@material-ui/core/StepButton';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
+    [theme.breakpoints.down('md')]: {
+      marginTop: '2rem',
+    },
   },
   button: {
     marginRight: theme.spacing(1),

@@ -64,6 +64,9 @@ const useStyles = makeStyles((theme) => ({
       width: '100%',
     },
   },
+  details: {
+    marginTop: '1rem',
+  },
   select: {
     '&::before': {
       border: `2px solid ${theme.palette.common.orange}`,
@@ -195,11 +198,7 @@ const ProductScreen = ({ history, match }) => {
                 </ListItem>
               </List>
             </Grid>
-            <Grid
-              item
-              md={3}
-              style={{ marginTop: '1rem', padding: matchesMD ? '0 2rem' : 0 }}
-            >
+            <Grid item md={3} className={classes.details}>
               <Card>
                 <List>
                   <ListItem>
@@ -225,7 +224,7 @@ const ProductScreen = ({ history, match }) => {
                             id='qty'
                             style={{
                               width: matchesSM
-                                ? '20rem'
+                                ? '15rem'
                                 : matchesMD
                                 ? 180
                                 : '13.8em',

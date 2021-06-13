@@ -17,12 +17,25 @@ const useStyles = makeStyles((theme) => ({
     padding: '0 2rem',
     borderRadius: 5,
     boxShadow: theme.shadows[5],
+    [theme.breakpoints.down('sm')]: {
+      marginTop: '2rem',
+    },
+    [theme.breakpoints.down('xs')]: {
+      marginTop: '2.5rem',
+    },
   },
   img: {
     padding: '1rem',
     borderRadius: 15,
     marginTop: '1rem',
     boxShadow: theme.shadows[2],
+  },
+  imgInside: {
+    width: 'auto',
+    height: 350,
+    [theme.breakpoints.down('xs')]: {
+      height: 300,
+    },
   },
   link: {
     padding: '1rem',
@@ -46,6 +59,7 @@ const ProductCarousel = () => {
     dots: true,
     accessibility: true,
     autoplay: true,
+    autoplaySpeed: 4000,
     arrows: true,
     infinite: true,
     speed: 500,
@@ -65,7 +79,7 @@ const ProductCarousel = () => {
                 <img
                   src={product.image}
                   alt={product.name}
-                  style={{ width: 'auto', height: 350 }}
+                  className={classes.imgInside}
                 />
               </Grid>
             </Grid>
